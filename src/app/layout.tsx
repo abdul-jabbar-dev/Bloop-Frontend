@@ -3,9 +3,6 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "src/app/globals.css";
 import Providers from "../lib/Providers";
-import RootHeader from "../components/header/RootHeader";
-import RootFooter from "../components/footer/RootFooter";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,6 +16,7 @@ interface RootLayoutProps {
 }
 
 function RootLayout({ children, serviceType }: RootLayoutProps) {
+
   return (
     <Providers>
       <html lang="en">

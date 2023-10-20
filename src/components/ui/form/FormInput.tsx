@@ -12,9 +12,11 @@ type Props = {
   value?: string;
   prefix?: ReactElement | any;
   label?: string;
-  style?: CSSProperties; 
+  style?: CSSProperties;
   id?: string;
   required?: boolean;
+  inputClassName?: string;
+  isNotEditable?: boolean
 };
 export default function FormInput({
   name,
@@ -24,11 +26,15 @@ export default function FormInput({
   id,
   type,
   prefix,
+  inputClassName,
   label,
   style,
-  required, 
+  required, isNotEditable
 }: Props) {
   const { control } = useFormContext();
+  if (isNotEditable) {
+    return <p style={style}>{value}</p>
+  }
   return (
     <>
       {label ? (
@@ -37,36 +43,38 @@ export default function FormInput({
             htmlFor="email"
             className="mb-1 text-xs sm:text-sm tracking-wide text-gray-600"
           >
-           {label}
+            {label}
           </label>}
           {required && <sup className="text-red-700">*</sup>}
         </p>
       ) : null}
       <Controller
-      
+        defaultValue={value}
         control={control}
         name={name}
+        
         render={({ field }) =>
           type === "password" ? (
             <Input.Password
               {...field}
               style={{ margin: "10px 0", ...style }}
               name={field.name}
-              value={value ? value : field.value}
-              size={size}
+              size={size} 
               id={id}
               placeholder={placeholder}
               prefix={prefix}
-              required={required} 
+              required={required}
+              className={inputClassName}
             />
           ) : (
             <Input
               {...field}
-              name={field.name} 
+              name={field.name}
               style={{ margin: "10px 0", ...style }}
-              value={value ? value : field.value}
               size={size}
+              className={inputClassName}
               id={id}
+              type={type}
               placeholder={placeholder}
               prefix={prefix}
               required={required}

@@ -2,6 +2,8 @@ import React from "react";
 import type { Metadata } from "next";
 import RootHeader from "../../components/header/RootHeader";
 import RootFooter from "../../components/footer/RootFooter";
+import { useGetMyInfoQuery } from "../../redux/app/apis/authApi";
+import VerifyUser from "../../components/auth/VerifyUser";
 
 export const metadata: Metadata = {
   title: "Create Next App",

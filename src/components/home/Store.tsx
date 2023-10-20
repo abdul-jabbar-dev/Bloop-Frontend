@@ -46,6 +46,7 @@ export default function Store() {
         <Search
           placeholder="Find your items"
           allowClear
+          
           enterButton="Search"
           size="large"
         />
