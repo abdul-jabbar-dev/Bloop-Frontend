@@ -20,7 +20,7 @@ export default function page(pages: Props) {
     return (
         <>
             {
-                data.map(item => <div className="mt-8 xl:-mx-6 xl:flex xl:items-center">
+                data?.map(item => <div className="mt-8 xl:-mx-6 xl:flex xl:items-center">
                     <Image className="object-cover w-full xl:mx-6 xl:w-1/2 rounded-xl md:h-72 h-60  " width={800} height={800} src={img} alt="" />
 
                     <div className="mt-6 xl:w-1/2 xl:mt-0 xl:mx-6 ">

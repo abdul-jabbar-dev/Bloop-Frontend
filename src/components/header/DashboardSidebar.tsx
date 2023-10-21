@@ -15,9 +15,9 @@ export default function DashboardSidebar(user: any) {
 
 
   const rendedMenu = () => {
-    if (data.role === 'subscriber') {
+    if (data?.role === 'subscriber') {
       return DashboardSubscriberMenu({ data, collapsed })
-    } else if (data.role === 'admin') {
+    } else if (data?.role === 'admin') {
       return DashboardAdminMenu({ data, collapsed })
     }
   }

@@ -21,7 +21,7 @@ const RenderedMenu = ({ data, IsLogin }: { data: any, IsLogin: Boolean }): React
   } else {
     console.log(data)
   }
-  if (data.role === 'subscriber') return <SubscriberMenu data={data} />
+  if (data?.role === 'subscriber') return <SubscriberMenu data={data} />
 }
 
 
@@ -39,7 +39,7 @@ export default function RootHeader() {
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       {
-        (data && data.status === 'deactive') && <VerifyUser />
+        (data && data?.status === 'deactive') && <VerifyUser />
       }
       <nav
         className="flex items-center justify-between p-6 lg:px-8 "

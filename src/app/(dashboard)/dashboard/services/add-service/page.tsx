@@ -26,7 +26,7 @@ export default function Page() {
         formData.append('data', JSON.stringify(newData))
         createService(formData).then(rre => {
             console.log(rre)
-            if ((rre as any).data.data) {
+            if ((rre as any)?.data?.data) {
                 messageApi.open({
                     key,
                     type: 'success',
@@ -39,7 +39,7 @@ export default function Page() {
                 messageApi.open({
                     key,
                     type: 'error',
-                    content: (rre as any).error.message || (rre as any).error.data,
+                    content: (rre as any)?.error?.message || (rre as any)?.error?.data,
                     duration: 2,
                 }
                 )

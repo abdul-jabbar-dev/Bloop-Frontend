@@ -32,7 +32,7 @@ export default function Page() {
     updateData = Object.fromEntries(Object.entries(updateData).filter(([_, v]) => v != null));
     const formData = new FormData()
     if (updateData?.profileImage) {
-      formData.append('file', updateData.profileImage)
+      formData.append('file', updateData?.profileImage)
       delete updateData['profileImage']
     }
     formData.append('data', JSON.stringify(updateData))
@@ -71,7 +71,7 @@ export default function Page() {
 
             <Col span={22} md={10} className='flex justify-center'>
 
-              {(editable && !data.image) && <Avatar size={200} src={data && data?.image?.url} icon={<UserOutlined />} />}
+              {(editable && !data?.image) && <Avatar size={200} src={data && data?.image?.url} icon={<UserOutlined />} />}
               {(editable) ? <Avatar className='w-full' size={200} src={<Image alt='Profile' width={300} height={200} src={data?.image?.url} />} /> : <FormUpload name='profileImage' defaultSrc={data?.image?.url} />
               }
             </Col>
@@ -133,7 +133,7 @@ export default function Page() {
             </Col>
             <Col span={22} md={10} className='my-7'>
               <h3 className='text-sm text-gray-500'>Status: </h3>
-              <p className="text-base font-medium text-gray-700  ">     {data.status}         </p>
+              <p className="text-base font-medium text-gray-700  ">     {data?.status}         </p>
             </Col>
             <Col span={24} >
               <Row align={'middle'}>

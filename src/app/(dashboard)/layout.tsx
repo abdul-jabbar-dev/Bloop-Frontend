@@ -17,7 +17,7 @@ export default function layout({ children }: { children: React.ReactNode | React
   }
   return (
     <Layout hasSider style={{ minHeight: '100vh' }}>
-      <DashboardSidebar data={data.data} />
+      <DashboardSidebar data={data?.data} />
       <Layout>
         <Content style={{ margin: '0 16px' }}>
           <div style={{ padding: 24, minHeight: 360 }}>
