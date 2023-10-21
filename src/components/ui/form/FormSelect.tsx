@@ -2,7 +2,7 @@
 import { Col, Divider, Select } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import { DefaultOptionType } from "antd/es/select";
-import { CSSProperties } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { useFormContext } from "react-hook-form";
 type Props = {
   name: string;
@@ -16,7 +16,7 @@ type Props = {
   required?: boolean;
   isNotEditable?: boolean,
   optionsValue: DefaultOptionType[],
-  mode?:"multiple"|"tags"
+  mode?: "multiple" | "tags"
 
 };
 export default function FormSelect({

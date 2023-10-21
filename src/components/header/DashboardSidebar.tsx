@@ -6,7 +6,7 @@ import DashboardSubscriberMenu from './dashbarMenu/DashboardSubscriberMenu';
 import DashboardAdminMenu from './dashbarMenu/DashboardAdminMenu';
 
 export default function DashboardSidebar(user: any) {
-  const { data } = user
+  const { data } = user  
   const [collapsed, setCollapsed] = useState(false);
 
   if (!data) {

@@ -5,8 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-export default function AuthHeader() {
-  console.log(usePathname());
+export default function AuthHeader() { ;
   return (
     <Row justify={"space-around"} className="w-full">
       <Link href={"/"}>

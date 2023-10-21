@@ -1,4 +1,5 @@
 type TService = {
+  id: string;
   title: string;
   price: number;
   serviceType: string;

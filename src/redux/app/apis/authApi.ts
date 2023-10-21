@@ -25,7 +25,7 @@ const authApi = baseAPI.injectEndpoints({
     }),
 
     createUserByProvider: build.mutation({
-      query: (providedInfo) => {
+      query: (providedInfo) => { 
         return {
           url: `/auth/create-by-provider`,
           method: "POST",

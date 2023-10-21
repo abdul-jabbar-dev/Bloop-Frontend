@@ -1,9 +1,7 @@
-import React from "react";
+
 import type { Metadata } from "next";
 import RootHeader from "../../components/header/RootHeader";
-import RootFooter from "../../components/footer/RootFooter";
-import { useGetMyInfoQuery } from "../../redux/app/apis/authApi";
-import VerifyUser from "../../components/auth/VerifyUser";
+import RootFooter from "../../components/footer/RootFooter"; 
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -12,10 +10,9 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  serviceType: React.ReactElement;
 }
 
-function RootLayout({ children, serviceType }: RootLayoutProps) {
+function RootLayout({ children }: RootLayoutProps) {
   return (
     <>
       <div className="relative">

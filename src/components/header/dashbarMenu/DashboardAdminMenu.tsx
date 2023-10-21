@@ -59,7 +59,7 @@ export default function DashboardAdminMenu({ data, collapsed }: any) {
     },
     {
       key: "3",
-      label: <Link href={'/dashboard/add-service-type'}>Service Type</Link>,
+      label: <Link href={'/dashboard/service-type'}>Service Type</Link>,
       icon: < CodeSandboxOutlined />,
     }, {
       key: "4",

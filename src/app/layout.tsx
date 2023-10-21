@@ -1,8 +1,8 @@
-import React from "react";
-import type { Metadata } from "next";
+
 import { Inter } from "next/font/google";
 import "src/app/globals.css";
 import Providers from "../lib/Providers";
+import { Metadata } from "next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -12,10 +12,9 @@ export const metadata: Metadata = {
 
 interface RootLayoutProps {
   children: React.ReactNode;
-  serviceType: React.ReactElement;
 }
 
-function RootLayout({ children, serviceType }: RootLayoutProps) {
+function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <Providers>

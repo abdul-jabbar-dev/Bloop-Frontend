@@ -31,14 +31,30 @@ export default function RegisterPage() {
             type: 'loading',
             content: 'Loading...',
         });
-        register(data).then((res) => {
-            messageApi.open({
-                key,
-                type: 'success',
-                content: 'Account create successful!',
-                duration: 2,
-            });
-        })
+        register(data)
+            .then((rre: any) => {
+                console.log(rre)
+                if (rre?.data?.data) {
+                    messageApi.open({
+                        key,
+                        type: 'success',
+                        content: 'Successfully login',
+                        duration: 2,
+                    }
+                    )
+                    storeUserInfo({ accessToken: rre.data?.data?.accessToken })
+                    router.push('/')
+                } else {
+                    messageApi.open({
+                        key,
+                        type: 'error',
+                        content: rre.error?.data?.message || rre?.error?.data,
+                        duration: 2,
+                    }
+                    )
+                }
+            })
+            .catch(rre => console.error(rre))
     };
 
 
@@ -51,6 +67,7 @@ export default function RegisterPage() {
         }
         )
         firebaseApp().signInGithub().then((result) => {
+
             const user: TCreateUserData = {
                 firstName: result.user.displayName?.split(' ')[0],
                 lastName: result.user.displayName?.split(' ')[1],
@@ -60,8 +77,8 @@ export default function RegisterPage() {
                 providerUid: result.user.uid
             };
             // console.log(result)
-            createUserByProvider(user).then(rre => {
-                if ((rre as any).data) {
+            createUserByProvider(user).then((rre: any) => {
+                if (rre?.data?.data) {
                     messageApi.open({
                         key,
                         type: 'success',
@@ -69,13 +86,13 @@ export default function RegisterPage() {
                         duration: 2,
                     }
                     )
-                    storeUserInfo({ accessToken: (rre as any).data.credential.accessToken })
+                    storeUserInfo({ accessToken: rre.data?.data?.credential?.accessToken })
                     router.push('/')
                 } else {
                     messageApi.open({
                         key,
                         type: 'error',
-                        content: (rre as any).error.message,
+                        content: rre.error?.data?.message || rre?.error?.data,
                         duration: 2,
                     }
                     )
@@ -90,8 +107,45 @@ export default function RegisterPage() {
             key,
             type: 'loading',
             content: 'Loading...',
+            duration: 2,
         }
         )
+        firebaseApp().signInFacebook().then((result) => {
+
+            const user: TCreateUserData = {
+                firstName: result.user.displayName?.split(' ')[0],
+                lastName: result.user.displayName?.split(' ')[1],
+                contactNo: result.user.phoneNumber ? result.user.phoneNumber : undefined,
+                email: result.user.email ? result.user.email : undefined,
+                profileImage: result.user.photoURL ? result.user.photoURL : undefined,
+                providerUid: result.user.uid
+            };
+            // console.log(result)
+            createUserByProvider(user).then((rre: any) => {
+                console.log(rre)
+                if (rre?.data?.data) {
+                    messageApi.open({
+                        key,
+                        type: 'success',
+                        content: 'Successfully login',
+                        duration: 2,
+                    }
+                    )
+                    storeUserInfo({ accessToken: rre.data?.data?.credential?.accessToken })
+                    router.push('/')
+                } else {
+                    messageApi.open({
+                        key,
+                        type: 'error',
+                        content: rre.error?.data?.message || rre?.error?.data,
+                        duration: 2,
+                    }
+                    )
+                }
+            }).catch(rre => console.error(rre))
+
+        });
+
         firebaseApp().signInFacebook().then((result) => {
             const user: TCreateUserData = {
                 firstName: result.user.displayName?.split(' ')[0],

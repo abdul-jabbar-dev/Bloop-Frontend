@@ -16,10 +16,12 @@ import firebaseApp from "../../utils/auth/firebaseApp";
 import TCreateUserData from "../../types/firebase/createUserInfo";
 
 export default function LoginPage() {
+
     const [messageApi, contextHolder] = message.useMessage();
     const key = 'updatable';
     const [createUserByProvider] = useCreateUserByProviderMutation()
     const [login, { isError, isLoading, isSuccess, data, status, error }] = useLoginMutation()
+    const router = useRouter()
     useEffect(() => {
         const isLogin = isLoggedIn()
         if (isLogin) {
@@ -74,28 +76,30 @@ export default function LoginPage() {
                 providerUid: result.user.uid
             };
             // console.log(result)
-            createUserByProvider(user).then(rre => {
-                if ((rre as any).data) {
-                    messageApi.open({
-                        key,
-                        type: 'success',
-                        content: 'Successfully login',
-                        duration: 2,
+            createUserByProvider(user)
+                .then((rre: any) => {
+                    console.log(rre)
+                    if (rre?.data?.data) {
+                        messageApi.open({
+                            key,
+                            type: 'success',
+                            content: 'Successfully login',
+                            duration: 2,
+                        }
+                        )
+                        storeUserInfo({ accessToken: rre.data?.data?.credential.accessToken })
+                        router.push('/')
+                    } else {
+                        messageApi.open({
+                            key,
+                            type: 'error',
+                            content: rre.error?.data?.message || rre?.error?.data,
+                            duration: 2,
+                        }
+                        )
                     }
-                    )
-                    storeUserInfo({ accessToken: (rre as any).data.credential.accessToken })
-                    useRouter().push('/')
-                } else {
-                    messageApi.open({
-                        key,
-                        type: 'error',
-                        content: (rre as any).error.message,
-                        duration: 2,
-                    }
-                    )
-                }
-            }).catch(rre => console.error(rre))
-
+                })
+                .catch(rre => console.error(rre))
         });
     }
 
@@ -115,27 +119,30 @@ export default function LoginPage() {
                 profileImage: result.user.photoURL ? result.user.photoURL : undefined,
                 providerUid: result.user.uid
             };
-            createUserByProvider(user).then(rre => {
-                if ((rre as any).data) {
-                    messageApi.open({
-                        key,
-                        type: 'success',
-                        content: 'Successfully login',
-                        duration: 2,
+            createUserByProvider(user)
+                .then((rre: any) => {
+                    console.log(rre)
+                    if (rre?.data?.data) {
+                        messageApi.open({
+                            key,
+                            type: 'success',
+                            content: 'Successfully login',
+                            duration: 2,
+                        }
+                        )
+                        storeUserInfo({ accessToken: rre.data?.data?.credential.accessToken })
+                        router.push('/')
+                    } else {
+                        messageApi.open({
+                            key,
+                            type: 'error',
+                            content: rre.error?.data?.message || rre?.error?.data,
+                            duration: 2,
+                        }
+                        )
                     }
-                    )
-                    storeUserInfo({ accessToken: (rre as any).data.credential.accessToken })
-                    useRouter().push('/')
-                } else {
-                    messageApi.open({
-                        key,
-                        type: 'error',
-                        content: (rre as any).error.message,
-                        duration: 2,
-                    }
-                    )
-                }
-            }).catch(rre => console.error(rre))
+                })
+                .catch(rre => console.error(rre))
 
         })
             .catch((error) => {
@@ -150,9 +157,32 @@ export default function LoginPage() {
     }
     const formHandler = async (data: any) => {
         const res: any = await login(data)
-        if (res?.data) {
-            SetLocalStore(CONFIG.authKey, res?.data?.accessToken)
-            useRouter().push('/')
+        console.log(res)
+        if (res?.data?.data) {
+            messageApi.open({
+                key,
+                type: 'success',
+                content: 'Successfully login',
+                duration: 2,
+            }
+            )
+            storeUserInfo({ accessToken: res.data?.data?.accessToken })
+            router.push('/')
+        } else {
+            messageApi.open({
+                key,
+                type: 'error',
+                content: res.error?.data?.message || res?.error?.data,
+                duration: 2,
+            }
+            )
+        }
+
+
+
+        if (res?.data?.data) {
+            SetLocalStore(CONFIG.authKey, res?.data?.data?.accessToken)
+            router.push('/')
         }
     };
     return (
@@ -167,8 +197,8 @@ export default function LoginPage() {
                 <span>
                     <FacebookOutlined /> Login with Facebook
                 </span>
-            </button>      
-            
+            </button>
+
             <button onClick={signInWithGithub} className="relative mt-6 border rounded-md py-2 text-sm text-gray-800 bg-gray-100 hover:bg-gray-200">
                 <span className="absolute left-0 top-0 flex items-center justify-center h-full w-10 text-blue-500">
                     <i className="fab fa-facebook-f"></i>

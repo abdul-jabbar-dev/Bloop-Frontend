@@ -11,11 +11,17 @@ instance.defaults.timeout = 60000;
 
 // Add a request interceptor
 instance.interceptors.request.use(
+//@ts-ignore
   function (config) {
-    // Do something before request is sent
     const accessToken = GetLocalStore(CONFIG.authKey);
+    console.log(
+      config.url?.includes("users/my-profile") && accessToken === null
+    );
     if (accessToken) {
       config.headers.Authorization = accessToken;
+    }
+    if (config.url?.includes("users/my-profile") && accessToken === null) {
+      return {}
     }
     return config;
   },
@@ -29,10 +35,10 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   // @ts-ignore
-  function (response) {
+  function (response: any) {
     const responseObject: TResponse = {
-      data: response?.data?.data,
-      meta: response?.data?.meta,
+      data: response?.data,
+      meta: response?.meta,
     };
     return Promise.resolve(responseObject);
   },

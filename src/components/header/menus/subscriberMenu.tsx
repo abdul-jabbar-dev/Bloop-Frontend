@@ -8,8 +8,8 @@ import RemoveLocalStore from '../../../helpers/localStore/removeLocalStore'
 import CONFIG from '../../../config'
 
 export default function SubscriberMenu(allData: any) {
-    const { data } = allData
 
+    const data = allData?.data
     const logoutAction = () => {
         firebaseApp().logout().then(res => {
             RemoveLocalStore(CONFIG.authKey)

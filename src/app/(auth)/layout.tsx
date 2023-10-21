@@ -1,4 +1,4 @@
-import React from "react";
+
 import AuthHeader from "../../components/header/AuthHeader";
 
 export default function layout({ children }: { children: any }) {

@@ -1,13 +1,14 @@
 'use client'
+
 import dayjs from "dayjs";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useGetSubscribersQuery } from "../../../../redux/app/users/userApi";
 import TheTable from "../../../../components/ui/data/TheTable";
-import Loading from "../../../(auth)/loading";
 import { Badge, Input, Space } from "antd";
 import { ColumnsType } from "antd/es/table";
 import { useDebounced } from "../../../../redux/hooks/hooks";
 import { SearchOutlined } from "@ant-design/icons";
+import Loading from "../loading";
 
 export default function Page() {
 
@@ -25,8 +26,10 @@ export default function Page() {
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
   query["searchTerm"] = searchTerm;
-  const { data, isLoading } = useGetSubscribersQuery(query)
+  const { data: subscriberData, isLoading } = useGetSubscribersQuery(query)
+  const data = subscriberData?.data 
 
+  
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
     delay: 600,

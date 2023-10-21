@@ -1,5 +1,5 @@
 'use client'
-import React, { Suspense, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import img from '../../../../../assets/service/car rent.jpg'
 import Image from 'next/image'

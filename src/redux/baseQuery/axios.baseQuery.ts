@@ -28,7 +28,10 @@ const axiosBaseQuery =
           "Content-Type": contentType || "application/json",
         },
       });
-      return { data: result.data };
+      return {
+        data: result?.data,
+        meta: (result as any)?.meta,
+      };
     } catch (axiosError) {
       const err = axiosError as AxiosError;
       return {

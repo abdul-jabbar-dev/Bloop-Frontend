@@ -1,6 +1,6 @@
 'use client'
 import { FileAddOutlined, SearchOutlined } from "@ant-design/icons";
-import { Badge, Button, Col, Input, Row, Space } from "antd";
+import { Badge, Button, Col, Input, Row, Space, Tag } from "antd";
 import Link from "next/link";
 import Loading from "../loading";
 import { ColumnsType } from "antd/es/table";
@@ -29,19 +29,19 @@ export default function Services() {
     query["sortOrder"] = sortOrder;
     query["searchTerm"] = searchTerm;
     const { data, isLoading } = useGetAllServiceQuery(query)
- 
+
     const debouncedTerm = useDebounced({
         searchQuery: searchTerm,
         delay: 600,
     });
-
+    console.log(data)
     if (!!debouncedTerm) {
         query["searchTerm"] = debouncedTerm;
     }
-    if (!data) {
+    if (!data?.data) {
         return <Loading />
     }
-    const columns: ColumnsType = [
+    const columns: ColumnsType<any> = [
 
         {
             title: 'Service Name',
@@ -62,6 +62,14 @@ export default function Services() {
             title: 'Service Area',
             dataIndex: 'serviceArea',
             key: 'serviceArea',
+            render: (_, { serviceArea }) => (
+                <>
+                    {serviceArea.map((tag: string, i: number) => <Tag color={"geekblue"} key={i}>
+                        {tag.toUpperCase()}
+                    </Tag>)
+                    }
+                </>
+            ),
         }, {
             title: 'status ',
             dataIndex: 'status',
@@ -87,9 +95,9 @@ export default function Services() {
         }, {
             title: 'Action',
             key: 'action',
-            render: () => (
+            render: (row) => (
                 <Space size="middle">
-                    <a>Delete</a>
+                    <a onClick={() => console.log(row)}>Delete</a>
                 </Space>
             ),
         },
@@ -119,7 +127,15 @@ export default function Services() {
                     showSizeChanger={true}
                     onPaginationChange={onPaginationChange}
                     expandable={{
-                        expandedRowRender: (record) => <p style={{ margin: 0 }}>{record.details}</p>,
+                        expandedRowRender: (record) => <div className="w-full m-0 flex gap-x-5">
+
+                            <Col>
+                                <img style={{ width: "100px" }} src={record?.image?.url} alt="" />
+                            </Col>
+                            <Col>
+                                {record.details}
+                            </Col>
+                        </div>,
                         rowExpandable: (record) => record.name !== 'Not Expandable',
                     }}
                     onTableChange={onTableChange}

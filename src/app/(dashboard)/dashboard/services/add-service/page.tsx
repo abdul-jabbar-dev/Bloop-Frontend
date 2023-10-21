@@ -1,5 +1,5 @@
 'use client'
-import { Button, Col, Row, Space, message } from "antd";
+import { Button, Col, Row, message } from "antd";
 import Form from "../../../../../components/ui/form/Form";
 import FormInput from "../../../../../components/ui/form/FormInput";
 import FormDynamicInput from "../../../../../components/ui/form/FormDynamicInput";
@@ -9,6 +9,9 @@ import FormUpload from "../../../../../components/ui/form/FormUpload";
 import { useGetServiceTypeQuery } from "../../../../../redux/app/serviceType/serviceTypeAndProvider";
 import { TServiceType } from "../../../../../types/serviceType/serviceType";
 import { useCreateServiceMutation } from "../../../../../redux/app/service/serviceApi";
+import bg from '/src/assets/servicePage/ac-installation.gif'
+import Image from "next/image";
+import FormBody from "../../../../../components/ui/formBodyPage/FormBody";
 
 export default function Page() {
     const { data } = useGetServiceTypeQuery({})
@@ -16,14 +19,14 @@ export default function Page() {
     const [messageApi, contextHolder] = message.useMessage();
     const key = 'Creatable';
 
-    const createANewService = (data: any) => {
+    const createANewService = (newData: any) => {
         const formData = new FormData()
-        formData.append('file', data.thumbnail)
-        delete data['thumbnail']
-        formData.append('data', JSON.stringify(data))
+        formData.append('file', newData.thumbnail)
+        delete newData['thumbnail']
+        formData.append('data', JSON.stringify(newData))
         createService(formData).then(rre => {
- 
-            if ((rre as any).data.id) {
+            console.log(rre)
+            if ((rre as any).data.data) {
                 messageApi.open({
                     key,
                     type: 'success',
@@ -31,7 +34,7 @@ export default function Page() {
                     duration: 2,
                 }
                 )
- 
+
             } else {
                 messageApi.open({
                     key,
@@ -110,50 +113,59 @@ export default function Page() {
         { label: "Bagerhat", value: "Bagerhat" },
         { label: "Satkhira", value: "Satkhira" }
     ];
+    const orderTypes = [
+        { label: "Online", value: "Online" },
+        { label: "Offline", value: "Offline" },
+        { label: "Hybrid", value: "Hybrid" }
+    ]
     return (
-        <div>
+        <FormBody title=" Create a new service" image={<Image width={400} height={500} src={bg} style={{ width: "100%" }} alt="Service background" />}>
             <Form submitHandler={createANewService}>{contextHolder}
-                <Row className="w-[60%]" justify={'space-between'}>
-                    <Col span={11}>
+                <Row className="w-full" justify={'space-between'}>
+                    <Col span={24} xl={11}>
                         <FormUpload label="Service Thumbnail" name="thumbnail" />
                     </Col>
-                    <Col span={11}>
+                    <Col span={24} xl={11}>
                         <FormDynamicInput required style={{ width: "100%" }} inputClassName="w-full flex-grow" placeholder="Item" size="large" name="serviceItem" label="Add Service Items" />
 
                     </Col>
                 </Row>
-                <Row className="w-[60%]" justify={'space-between'}>
-                    <Col span={11}>
+                <Row className="w-full" justify={'space-between'}>
+                    <Col span={24} xl={11}>
                         <FormInput size="large" required name="title" label="Service Name" />
                     </Col>
-                    <Col span={11}>
-                        <FormInput size="large" required name="orderType" label="Order Type" />
+                    <Col span={24} xl={11}>
+                        <FormSelect style={{ width: "100%" }} size="large" required name="orderType" label="Order Type" optionsValue={orderTypes} />
                     </Col>
                 </Row>
-                <Row className="w-[60%]" justify={'space-between'}>
-                    <Col span={11}>
+                <Row className="w-full" justify={'space-between'}>
+                    <Col span={24} xl={11}>
                         <FormInput type="number" required size="large" name="price" label="Service Price" />
                     </Col>
-                    <Col span={11}>
+                    <Col span={24} xl={11}>
                         <FormInput size="large" required name="serviceGuarantee" label="Service Guarantee" />
                     </Col>
                 </Row>
-                <Row className="w-[60%]" justify={'space-between'}>
-                    <Col span={11}>
+                <Row className="w-full" justify={'space-between'}>
+                    <Col span={24} xl={11}>
                         <FormSelect style={{ width: "100%" }} mode="tags" size="large" required name="serviceArea" label="Service Areas" optionsValue={districtData} />
                     </Col>
-                    <Col span={11}>
-                        <FormSelect style={{ width: "100%" }} size="large" required name="serviceTypeId" label="Service Category" optionsValue={data?.map((category: TServiceType) => ({ label: category.title, value: category.id }))} />
+                    <Col span={24} xl={11}>
+                        <FormSelect style={{ width: "100%" }} size="large" required name="serviceTypeId" label="Service Category" optionsValue={data?.data?.map((category: TServiceType) => ({ label: category.title, value: category.id }))} />
                     </Col>
                 </Row>
 
-                <Row className="w-[60%]" justify={'space-between'}>
+                <Row className="w-full" justify={'space-between'}>
                     <Col span={24}>
                         <FormTextArea placeholder="Write service about some information" name="details" label="Service Details" />
                     </Col>
                 </Row>
-                <Button htmlType="submit">submit</Button>
+                <Row className="w-full mt-6" justify={'space-between'}>
+                    <Col span={24}>
+                        <Button htmlType="submit">submit</Button>
+                    </Col>
+                </Row>
             </Form>
-        </div>
+        </FormBody>
     )
 }

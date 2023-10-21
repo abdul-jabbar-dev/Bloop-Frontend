@@ -1,14 +1,13 @@
 'use client'
 import dayjs from "dayjs";
-import React, { useState } from "react"; 
+import  { useState } from "react";
 import TheTable from "../../../../components/ui/data/TheTable";
-import Loading from "../../../(auth)/loading";
 import { Badge, Button, Col, Input, Row, Space } from "antd";
-import { ColumnsType } from "antd/es/table";
 import { useDebounced } from "../../../../redux/hooks/hooks";
 import { SearchOutlined, UserAddOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import { useGetServiceProviderQuery } from "../../../../redux/app/serviceType/serviceTypeAndProvider";
+import Loading from "../loading";
 
 export default function ServiceProvider() {
 
@@ -26,8 +25,8 @@ export default function ServiceProvider() {
   query["sortBy"] = sortBy;
   query["sortOrder"] = sortOrder;
   query["searchTerm"] = searchTerm;
-  const { data, isLoading } = useGetServiceProviderQuery(query)
-
+  const { data: serviceProviderData, isLoading } = useGetServiceProviderQuery(query)
+  const data = serviceProviderData?.data
   const debouncedTerm = useDebounced({
     searchQuery: searchTerm,
     delay: 600,
@@ -40,9 +39,9 @@ export default function ServiceProvider() {
 
 
   if (!(data?.data)) {
-    return <Loading />
+    return <Loading/>
   }
-  const columns: ColumnsType = [
+  const columns= [
 
     {
       title: 'Full Name',
@@ -73,7 +72,7 @@ export default function ServiceProvider() {
       dataIndex: 'status',
       key: 'status',
       sorter: true,
-      render: (dataa) => {
+      render: (dataa:any) => {
         if (dataa === 'active') {
           return <Badge status="success" text={dataa} />
         } else if (dataa === 'deactive') {

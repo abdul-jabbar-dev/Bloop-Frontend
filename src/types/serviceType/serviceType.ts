@@ -1,4 +1,4 @@
 export type TServiceType = {
-  id: string;
+  id?: string;
   title: string; 
 };

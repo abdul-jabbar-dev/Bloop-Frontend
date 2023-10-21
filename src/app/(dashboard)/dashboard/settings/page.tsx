@@ -1,17 +1,20 @@
 'use client'
-import { Avatar, Button, Col, Row, Tooltip, message } from 'antd'
+import { Avatar, Badge, Button, Col, Row, Tooltip, message } from 'antd'
 import Image from 'next/image'
 import React, { useState } from 'react'
 import { useGetMyInfoQuery, useUpdateUserInfoMutation } from '../../../../redux/app/apis/authApi'
 import Loading from '../loading'
 import Form from '../../../../components/ui/form/Form'
 import FormInput from '../../../../components/ui/form/FormInput'
-import { EditOutlined, ReadOutlined, SearchOutlined, UserOutlined } from '@ant-design/icons'
+import { EditOutlined, ReadOutlined, UserOutlined } from '@ant-design/icons'
 import FormUpload from '../../../../components/ui/form/FormUpload'
+import GetLocalStore from '../../../../helpers/localStore/getLocalStore'
+import CONFIG from '../../../../config'
 export default function Page() {
   const [messageApi, contextHolder] = message.useMessage();
   const [editable, setEditable] = useState(true)
-  const { data } = useGetMyInfoQuery(null)
+  const { data: userData } = useGetMyInfoQuery(null, { skip: !GetLocalStore(CONFIG.authKey) })
+  const data = userData?.data
   const key = 'updatable';
   const [update] = useUpdateUserInfoMutation()
   if (!data) {
@@ -22,7 +25,6 @@ export default function Page() {
     for (const key in updateData) {
       if (updateData.hasOwnProperty(key)) {
         if (typeof updateData[key] === 'string') {
-          // Trim the string property
           updateData[key] = updateData[key].trim();
         }
       }
@@ -68,8 +70,9 @@ export default function Page() {
           <Row className='gap-x-3'>
 
             <Col span={22} md={10} className='flex justify-center'>
+
               {(editable && !data.image) && <Avatar size={200} src={data && data?.image?.url} icon={<UserOutlined />} />}
-              {editable ? <Avatar className='w-full' size={200} src={<Image alt='Profile' width={300} height={200} src={data?.image?.url} />} /> : <FormUpload name='profileImage' defaultSrc={data?.image?.url} />
+              {(editable) ? <Avatar className='w-full' size={200} src={<Image alt='Profile' width={300} height={200} src={data?.image?.url} />} /> : <FormUpload name='profileImage' defaultSrc={data?.image?.url} />
               }
             </Col>
             <Col span={22} md={10} className='flex justify-center'>

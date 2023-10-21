@@ -1,4 +1,5 @@
-import { TServiceType } from "../types/Service/ServiceType";
+import { TServiceType } from "../types/serviceType/serviceType";
+
 
 const serviceType = (): TServiceType[] => [
   {

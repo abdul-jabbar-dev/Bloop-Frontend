@@ -1,12 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { TServiceType } from '../../types/Service/ServiceType'
 import serviceType from '../../data/category'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import TService from '../../types/Service/Service'
 import allService from '../../data/service'
 import { HomeOutlined } from '@ant-design/icons'
+import { TServiceType } from '../../types/serviceType/serviceType'
 
 export default function ServiceList() {
     const [servicesType, setServicesType] = useState<TServiceType[]>([])
