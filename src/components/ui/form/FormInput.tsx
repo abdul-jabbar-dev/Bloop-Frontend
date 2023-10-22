@@ -1,7 +1,7 @@
 "use client";
 import { Input } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
-import { CSSProperties, ReactElement } from "react";
+import { CSSProperties,ChangeEventHandler,ReactElement } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
 type Props = {
@@ -16,7 +16,7 @@ type Props = {
   id?: string;
   required?: boolean;
   inputClassName?: string;
-  isNotEditable?: boolean
+  isNotEditable?: boolean; 
 };
 export default function FormInput({
   name,
@@ -29,7 +29,7 @@ export default function FormInput({
   inputClassName,
   label,
   style,
-  required, isNotEditable
+  required, isNotEditable, 
 }: Props) {
   const { control } = useFormContext();
   if (isNotEditable) {
@@ -52,18 +52,19 @@ export default function FormInput({
         defaultValue={value}
         control={control}
         name={name}
-        
+
         render={({ field }) =>
           type === "password" ? (
             <Input.Password
               {...field}
               style={{ margin: "10px 0", ...style }}
               name={field.name}
-              size={size} 
+              size={size}
               id={id}
               placeholder={placeholder}
               prefix={prefix}
               required={required}
+
               className={inputClassName}
             />
           ) : (
@@ -76,7 +77,7 @@ export default function FormInput({
               id={id}
               type={type}
               placeholder={placeholder}
-              prefix={prefix}
+              prefix={prefix} 
               required={required}
             />
           )

@@ -6,7 +6,7 @@ import { Badge, Button, Col, Input, Row, Space } from "antd";
 import { useDebounced } from "../../../../redux/hooks/hooks";
 import { SearchOutlined, UserAddOutlined } from "@ant-design/icons";
 import Link from "next/link";
-import { useGetServiceProviderQuery } from "../../../../redux/app/serviceType/serviceTypeAndProvider";
+import { useGetServiceProviderQuery } from "../../../../redux/app/serviceTypeAndProvider/serviceTypeAndProvider";
 import Loading from "../loading";
 
 export default function ServiceProvider() {

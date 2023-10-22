@@ -6,7 +6,7 @@ import FormDynamicInput from "../../../../../components/ui/form/FormDynamicInput
 import FormTextArea from "../../../../../components/ui/form/FormTextArea";
 import FormSelect from "../../../../../components/ui/form/FormSelect";
 import FormUpload from "../../../../../components/ui/form/FormUpload";
-import { useGetServiceTypeQuery } from "../../../../../redux/app/serviceType/serviceTypeAndProvider";
+import { useGetServiceTypeQuery } from "../../../../../redux/app/serviceTypeAndProvider/serviceTypeAndProvider";
 import { TServiceType } from "../../../../../types/serviceType/serviceType";
 import { useCreateServiceMutation } from "../../../../../redux/app/service/serviceApi";
 import bg from '/src/assets/servicePage/ac-installation.gif'
@@ -24,8 +24,8 @@ export default function Page() {
         formData.append('file', newData.thumbnail)
         delete newData['thumbnail']
         formData.append('data', JSON.stringify(newData))
-        createService(formData).then(rre => {
-            console.log(rre)
+        createService(formData).then((rre:any) => {
+            
             if ((rre as any)?.data?.data) {
                 messageApi.open({
                     key,
@@ -44,7 +44,7 @@ export default function Page() {
                 }
                 )
             }
-        }).catch(rre => console.error(rre))
+        }).catch((rre:any) => console.error(rre))
     }
 
     const districtData = [

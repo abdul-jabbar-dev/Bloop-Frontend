@@ -5,7 +5,7 @@ import { Button, Col, Row, message } from "antd";
 import { FacebookOutlined, GithubOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
-import { redirect, useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { useCreateUserByProviderMutation, useLoginMutation } from "../../redux/app/apis/authApi";
 import SetLocalStore from "../../helpers/localStore/setLocalStore";
 import CONFIG from "../../config";
@@ -21,7 +21,7 @@ export default function LoginPage() {
     const key = 'updatable';
     const [createUserByProvider] = useCreateUserByProviderMutation()
     const [login, { isError, isLoading, isSuccess, data, status, error }] = useLoginMutation()
-    const router = useRouter()
+ 
     useEffect(() => {
         const isLogin = isLoggedIn()
         if (isLogin) {
@@ -75,10 +75,9 @@ export default function LoginPage() {
                 profileImage: result.user.photoURL ? result.user.photoURL : undefined,
                 providerUid: result.user.uid
             };
-            // console.log(result)
             createUserByProvider(user)
                 .then((rre: any) => {
-                    console.log(rre)
+                    
                     if (rre?.data?.data) {
                         messageApi.open({
                             key,
@@ -88,7 +87,7 @@ export default function LoginPage() {
                         }
                         )
                         storeUserInfo({ accessToken: rre.data?.data?.credential.accessToken })
-                        router.push('/')
+                        redirect('/')
                     } else {
                         messageApi.open({
                             key,
@@ -99,7 +98,7 @@ export default function LoginPage() {
                         )
                     }
                 })
-                .catch(rre => console.error(rre))
+                .catch((rre:any) => console.error(rre))
         });
     }
 
@@ -121,7 +120,7 @@ export default function LoginPage() {
             };
             createUserByProvider(user)
                 .then((rre: any) => {
-                    console.log(rre)
+                    
                     if (rre?.data?.data) {
                         messageApi.open({
                             key,
@@ -131,7 +130,7 @@ export default function LoginPage() {
                         }
                         )
                         storeUserInfo({ accessToken: rre.data?.data?.credential.accessToken })
-                        router.push('/')
+                        redirect('/')
                     } else {
                         messageApi.open({
                             key,
@@ -142,7 +141,7 @@ export default function LoginPage() {
                         )
                     }
                 })
-                .catch(rre => console.error(rre))
+                .catch((rre:any) => console.error(rre))
 
         })
             .catch((error) => {
@@ -156,8 +155,7 @@ export default function LoginPage() {
             });
     }
     const formHandler = async (data: any) => {
-        const res: any = await login(data)
-        console.log(res)
+        const res: any = await login(data) 
         if (res?.data?.data) {
             messageApi.open({
                 key,
@@ -167,7 +165,7 @@ export default function LoginPage() {
             }
             )
             storeUserInfo({ accessToken: res.data?.data?.accessToken })
-            router.push('/')
+            redirect('/')
         } else {
             messageApi.open({
                 key,
@@ -182,7 +180,7 @@ export default function LoginPage() {
 
         if (res?.data?.data) {
             SetLocalStore(CONFIG.authKey, res?.data?.data?.accessToken)
-            router.push('/')
+            redirect('/')
         }
     };
     return (

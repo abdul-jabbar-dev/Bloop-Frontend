@@ -25,24 +25,13 @@ const authApi = baseAPI.injectEndpoints({
     }),
 
     createUserByProvider: build.mutation({
-      query: (providedInfo) => { 
+      query: (providedInfo) => {
         return {
           url: `/auth/create-by-provider`,
           method: "POST",
           data: providedInfo,
         };
       },
-    }),
-
-    updateUserInfo: build.mutation({
-      query: (updatedUserInfo) => {
-        return {
-          url: `/users/update-profile`,
-          method: "PATCH",
-          contentType: "multipart/form-data",
-          data: updatedUserInfo,
-        };
-      },invalidatesTags:["user"]
     }),
 
     getMyInfo: build.query({
@@ -55,6 +44,7 @@ const authApi = baseAPI.injectEndpoints({
           },
         };
       },
+      providesTags: ["user"],
     }),
   }),
 });
@@ -63,5 +53,4 @@ export const {
   useLoginMutation,
   useCreateUserByProviderMutation,
   useGetMyInfoQuery,
-  useUpdateUserInfoMutation
 } = authApi;

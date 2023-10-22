@@ -15,7 +15,18 @@ const userApi = baseAPI.injectEndpoints({
           },
         };
       },
-    }),   
+    }),
+    updateUserInfo: build.mutation({
+      query: (updatedUserInfo) => {
+        return {
+          url: `/users/update-profile`,
+          method: "PATCH",
+          contentType: "multipart/form-data",
+          data: updatedUserInfo,
+        };
+      },
+      invalidatesTags: ["user"],
+    }),
     //  getServiceProvider: build.query({
     //   query: (arg: Record<string, any>) => {
     //     return {
@@ -41,4 +52,4 @@ const userApi = baseAPI.injectEndpoints({
     // }),
   }),
 });
-export const { useGetSubscribersQuery } = userApi;
+export const { useGetSubscribersQuery,useUpdateUserInfoMutation } = userApi;

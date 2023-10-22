@@ -1,5 +1,5 @@
 "use client";
-import { ArrowRightOutlined, DownOutlined, LogoutOutlined, UserOutlined } from "@ant-design/icons";
+import { ArrowRightOutlined, DownOutlined,  UserOutlined } from "@ant-design/icons";
 import { Avatar, Col, Dropdown, Row } from "antd";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import CONFIG from "../../config";
 
 
 const RenderedMenu = ({ data, IsLogin }: { data: any, IsLogin: Boolean }): React.JSX.Element | undefined => {
-  const user = getUserInfo()
+
   if (IsLogin && !data) {
     return <Loading />
   } else {
@@ -32,10 +32,10 @@ export default function RootHeader() {
   const [services, setServices] = useState<{ title: string }[]>([]);
   const IsLogin = isLoggedIn()
   const data = myData?.data 
+  
   useEffect(() => {
     setServices(serviceType());
   }, []);
-
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       {

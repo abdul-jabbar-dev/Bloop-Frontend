@@ -1,8 +1,8 @@
 'use client'
-import { Avatar, Badge, Button, Col, Row, Tooltip, message } from 'antd'
+import { Avatar, Button, Col, Row, Tooltip, message } from 'antd'
 import Image from 'next/image'
 import React, { useState } from 'react'
-import { useGetMyInfoQuery, useUpdateUserInfoMutation } from '../../../../redux/app/apis/authApi'
+import { useGetMyInfoQuery } from '../../../../redux/app/apis/authApi'
 import Loading from '../loading'
 import Form from '../../../../components/ui/form/Form'
 import FormInput from '../../../../components/ui/form/FormInput'
@@ -10,7 +10,10 @@ import { EditOutlined, ReadOutlined, UserOutlined } from '@ant-design/icons'
 import FormUpload from '../../../../components/ui/form/FormUpload'
 import GetLocalStore from '../../../../helpers/localStore/getLocalStore'
 import CONFIG from '../../../../config'
+import {  redirect} from 'next/navigation'
+import { useUpdateUserInfoMutation } from '../../../../redux/app/users/userApi'
 export default function Page() {
+ 
   const [messageApi, contextHolder] = message.useMessage();
   const [editable, setEditable] = useState(true)
   const { data: userData } = useGetMyInfoQuery(null, { skip: !GetLocalStore(CONFIG.authKey) })
@@ -36,7 +39,7 @@ export default function Page() {
       delete updateData['profileImage']
     }
     formData.append('data', JSON.stringify(updateData))
-    update(formData).then(rre => {
+    update(formData).then((rre:any) => {
       if ((rre as any).data) {
         messageApi.open({
           key,
@@ -45,7 +48,7 @@ export default function Page() {
           duration: 2,
         }
         )
-        document.location.reload()
+        setEditable(true)
       } else {
         messageApi.open({
           key,
@@ -60,101 +63,102 @@ export default function Page() {
 
   }
   return (
-    <Row>{contextHolder}
-      <Col lg={7} span={22} className="px-4 sm:px-0">
-        <h3 className="text-base font-semibold leading-7 text-gray-900">User Information</h3>
-        <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details.</p>
-      </Col>
-      <Col lg={17} span={22} className="mt-6 border-t border-gray-100">
-        <Form submitHandler={updateProfile}>
-          <Row className='gap-x-3'>
+    <>
+      <Row>{contextHolder}
+        <Col lg={7} span={22} className="px-4 sm:px-0">
+          <h3 className="text-base font-semibold leading-7 text-gray-900">User Information</h3>
+          <p className="mt-1 max-w-2xl text-sm leading-6 text-gray-500">Personal details.</p>
+        </Col>
+        <Col lg={17} span={22} className="mt-6 border-t border-gray-100">
+          <Form submitHandler={updateProfile}>
+            <Row className='gap-x-3'>
 
-            <Col span={22} md={10} className='flex justify-center'>
+              <Col span={22} md={10} className='flex justify-center'>
 
-              {(editable && !data?.image) && <Avatar size={200} src={data && data?.image?.url} icon={<UserOutlined />} />}
-              {(editable) ? <Avatar className='w-full' size={200} src={<Image alt='Profile' width={300} height={200} src={data?.image?.url} />} /> : <FormUpload name='profileImage' defaultSrc={data?.image?.url} />
-              }
-            </Col>
-            <Col span={22} md={10} className='flex justify-center'>
-
-            </Col>
-            <Col span={22} md={10} className='mt-7'>
-              <h3 className='text-sm text-gray-500'>First Name: </h3>
-              <p className="text-base font-medium text-gray-700  ">
-                <FormInput name='firstName' required isNotEditable={editable} value={data?.firstName}></FormInput>
-              </p>
-            </Col>
-
-            <Col span={22} md={10} className='mt-7'>
-              <h3 className='text-sm text-gray-500'>Last Name: </h3>
-              <p className="text-base font-medium text-gray-700  ">
-                <FormInput name='lastName' required isNotEditable={editable} value={data?.lastName}></FormInput>
-              </p>
-            </Col>
-
-            <Col span={22} md={10} className='mt-7'>
-              <h3 className='text-sm text-gray-500'>Email: </h3>
-              <p className="text-base font-medium text-gray-700  ">
-
-                <FormInput name='email' type='email' /* required={!(data.email)}  */ isNotEditable={editable} value={data?.email}></FormInput>
-              </p>
-
-            </Col>
-
-            <Col span={22} md={10} className='mt-7'>
-              <h3 className='text-sm text-gray-500'>Gender: </h3>
-              <p className="text-base font-medium text-gray-700  ">
-
-                <FormInput name='gender' isNotEditable={editable} value={data?.gender}></FormInput>
-              </p>
-            </Col>
-
-            <Col span={22} md={10} className='mt-7'>
-              <h3 className='text-sm text-gray-500'>Date Of Birth: </h3>
-              <p className="text-base font-medium text-gray-700  ">
-                <FormInput name='dateOfBirth' isNotEditable={editable} value={data?.dateOfBirth}></FormInput>
-
-              </p>
-            </Col>
-            <Col span={22} md={10} className='mt-7'>
-              <h3 className='text-sm text-gray-500'>Contact No: </h3>
-              <p className="text-base font-medium text-gray-700  ">
-                <FormInput name='contactNo' isNotEditable={editable} value={data?.contactNo}></FormInput>
-
-              </p>
-            </Col>
-
-            <Col span={22} md={10} className='my-7'>
-              <h3 className='text-sm text-gray-500'>Blood Group: </h3>
-              <p className="text-base font-medium text-gray-700  ">
-
-                <FormInput name='bloodGroup' isNotEditable={editable} value={data?.bloodGroup}></FormInput>
-              </p>
-            </Col>
-            <Col span={22} md={10} className='my-7'>
-              <h3 className='text-sm text-gray-500'>Status: </h3>
-              <p className="text-base font-medium text-gray-700  ">     {data?.status}         </p>
-            </Col>
-            <Col span={24} >
-              <Row align={'middle'}>
-                <Col span={12} >
-                  <Tooltip title={editable ? "Edit Profile" : "View Profile"}>
-                    <Button size={'large'} onClick={() => setEditable(!editable)} shape="circle" icon={editable ? <EditOutlined /> : <ReadOutlined />} />
-                  </Tooltip>
-                </Col>
-
-                {
-                  !editable && <Col span={12} className='mt-7'>
-                    <Button htmlType='submit'>Update</Button>
-                  </Col>
+                {(editable && !data?.image) && <Avatar size={200} src={data && data?.image?.url} icon={<UserOutlined />} />}
+                {(editable) ? <Avatar className='w-full' size={200} src={<Image alt='Profile' width={300} height={200} src={data?.image?.url} />} /> : <FormUpload name='profileImage' defaultSrc={data?.image?.url} />
                 }
-              </Row>
-            </Col>
+              </Col>
+              <Col span={22} md={10} className='flex justify-center'>
 
-          </Row>
-        </Form>
-      </Col>
+              </Col>
+              <Col span={22} md={10} className='mt-7'>
+                <h3 className='text-sm text-gray-500'>First Name: </h3>
+                <div className="text-base font-medium text-gray-700  ">
+                  <FormInput name='firstName' required isNotEditable={editable} value={data?.firstName}></FormInput>
+                </div>
+              </Col>
 
-    </Row>
+              <Col span={22} md={10} className='mt-7'>
+                <h3 className='text-sm text-gray-500'>Last Name: </h3>
+                <div className="text-base font-medium text-gray-700  ">
+                  <FormInput name='lastName' required isNotEditable={editable} value={data?.lastName}></FormInput>
+                </div>
+              </Col>
+
+              <Col span={22} md={10} className='mt-7'>
+                <h3 className='text-sm text-gray-500'>Email: </h3>
+                <div className="text-base font-medium text-gray-700  ">
+
+                  <FormInput name='email' type='email' /* required={!(data.email)}  */ isNotEditable={editable} value={data?.email}></FormInput>
+                </div>
+
+              </Col>
+
+              <Col span={22} md={10} className='mt-7'>
+                <h3 className='text-sm text-gray-500'>Gender: </h3>
+                <div className="text-base font-medium text-gray-700  ">
+
+                  <FormInput name='gender' isNotEditable={editable} value={data?.gender}></FormInput>
+                </div>
+              </Col>
+
+              <Col span={22} md={10} className='mt-7'>
+                <h3 className='text-sm text-gray-500'>Date Of Birth: </h3>
+                <div className="text-base font-medium text-gray-700  ">
+                  <FormInput name='dateOfBirth' isNotEditable={editable} value={data?.dateOfBirth}></FormInput>
+
+                </div>
+              </Col>
+              <Col span={22} md={10} className='mt-7'>
+                <h3 className='text-sm text-gray-500'>Contact No: </h3>
+                <div className="text-base font-medium text-gray-700  ">
+                  <FormInput name='contactNo' isNotEditable={editable} value={data?.contactNo}></FormInput>
+                </div>
+              </Col>
+
+              <Col span={22} md={10} className='my-7'>
+                <h3 className='text-sm text-gray-500'>Blood Group: </h3>
+                <div className="text-base font-medium text-gray-700  ">
+
+                  <FormInput name='bloodGroup' isNotEditable={editable} value={data?.bloodGroup}></FormInput>
+                </div>
+              </Col>
+              <Col span={22} md={10} className='my-7'>
+                <h3 className='text-sm text-gray-500'>Status: </h3>
+                <div className="text-base font-medium text-gray-700  ">{data?.status}</div>
+              </Col>
+              <Col span={24} >
+                <Row align={'middle'}>
+                  <Col span={12} >
+                    <Tooltip title={editable ? "Edit Profile" : "View Profile"}>
+                      <Button size={'large'} onClick={() => setEditable(!editable)} shape="circle" icon={editable ? <EditOutlined /> : <ReadOutlined />} />
+                    </Tooltip>
+                  </Col>
+
+                  {
+                    !editable && <Col span={12} className='mt-7'>
+                      <Button htmlType='submit'>Update</Button>
+                    </Col>
+                  }
+                </Row>
+              </Col>
+
+            </Row>
+          </Form>
+        </Col>
+
+      </Row>
+    </>
   )
 }

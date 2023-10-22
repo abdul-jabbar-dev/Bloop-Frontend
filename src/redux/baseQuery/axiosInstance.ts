@@ -3,6 +3,7 @@ import TError from "../../types/Errors/Error";
 import TResponse from "../../types/Response/response";
 import GetLocalStore from "../../helpers/localStore/getLocalStore";
 import CONFIG from "../../config";
+import RemoveLocalStore from "../../helpers/localStore/removeLocalStore";
 
 const instance = axios.create();
 instance.defaults.headers.post["Content-Type"] = "application/json";
@@ -11,17 +12,15 @@ instance.defaults.timeout = 60000;
 
 // Add a request interceptor
 instance.interceptors.request.use(
-//@ts-ignore
+  //@ts-ignore
   function (config) {
     const accessToken = GetLocalStore(CONFIG.authKey);
-    console.log(
-      config.url?.includes("users/my-profile") && accessToken === null
-    );
+
     if (accessToken) {
       config.headers.Authorization = accessToken;
     }
     if (config.url?.includes("users/my-profile") && accessToken === null) {
-      return {}
+      return {};
     }
     return config;
   },
@@ -42,7 +41,13 @@ instance.interceptors.response.use(
     };
     return Promise.resolve(responseObject);
   },
-  function (error) {
+  function (error) { 
+    if (
+      error?.response?.data?.message === "This user has no record found" ||
+      error?.response?.data?.message === "jwt expired"
+    ) {
+      RemoveLocalStore(CONFIG.authKey);
+    };
     const responseObject: TError = {
       name: error?.response?.data?.name,
       statusCode: error?.response?.data?.statusCode || 500,

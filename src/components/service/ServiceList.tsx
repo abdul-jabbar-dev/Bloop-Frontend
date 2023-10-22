@@ -11,11 +11,13 @@ import { TServiceType } from '../../types/serviceType/serviceType'
 export default function ServiceList() {
     const [servicesType, setServicesType] = useState<TServiceType[]>([])
     const [services, setServices] = useState<TService[]>([])
+
     const joinPath = (service: any) => (service.title).split(' ').join('_')
     useEffect(() => {
         setServicesType(serviceType())
         setServices(allService())
     }, [])
+    
     const activeLink = " text-blue-600 font-semibold underline"
     return (
         <div >

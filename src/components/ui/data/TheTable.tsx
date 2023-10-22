@@ -44,6 +44,7 @@ const TheTable = ({
             loading={loading}
             expandable={expandable}
             columns={columns}
+            
             dataSource={dataSource}
             pagination={paginationConfig}
             onChange={onTableChange}

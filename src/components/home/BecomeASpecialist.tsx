@@ -2,13 +2,13 @@ import { Button, Col, Row } from "antd";
 import Image from "next/image";
 import React from "react";
 import hireWorker from "../../assets/hire-worker.png";
-import { useRouter } from "next/router";
+ 
 import Link from "next/link";
 export default function BecomeASpecialist() {
   return (
     <div className="bg-gray-500 w-full">
       <div
-        className="w-full  md:w-[90%] py-32 bg-no-repeat bg-right-bottom bg-contain "
+        className="w-full  py-32 bg-no-repeat bg-right-bottom bg-contain "
         style={{ backgroundImage: `url(${hireWorker.src})` }}
       >
         <div className="relative before:block before:absolute md:before:w-1/6 before:w-1/4 before:-top-8 md:before:top-0 before:left-0 before:h-[2px] before:bg-orange-500  ">

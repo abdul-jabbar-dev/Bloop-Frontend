@@ -3,8 +3,7 @@
 
 import { Button, Col, Row, message } from "antd";
 import { FacebookOutlined, GithubOutlined } from "@ant-design/icons";
-
-import { redirect, useRouter } from "next/navigation";
+ 
 import { useEffect } from "react";
 import { useCreateUserByProviderMutation, useRegisterMutation } from "../../redux/app/apis/authApi";
 import { isLoggedIn, storeUserInfo } from "../../utils/auth.service";
@@ -12,8 +11,9 @@ import firebaseApp from "../../utils/auth/firebaseApp";
 import TCreateUserData from "../../types/firebase/createUserInfo";
 import Form from "../ui/form/Form";
 import FormInput from "../ui/form/FormInput";
+import {redirect} from 'next/navigation'
 export default function RegisterPage() {
-    const router = useRouter()
+
     const [messageApi, contextHolder] = message.useMessage();
     const [register] = useRegisterMutation()
     const [createUserByProvider] = useCreateUserByProviderMutation()
@@ -33,7 +33,7 @@ export default function RegisterPage() {
         });
         register(data)
             .then((rre: any) => {
-                console.log(rre)
+                
                 if (rre?.data?.data) {
                     messageApi.open({
                         key,
@@ -43,7 +43,7 @@ export default function RegisterPage() {
                     }
                     )
                     storeUserInfo({ accessToken: rre.data?.data?.accessToken })
-                    router.push('/')
+                    redirect('/')
                 } else {
                     messageApi.open({
                         key,
@@ -54,7 +54,7 @@ export default function RegisterPage() {
                     )
                 }
             })
-            .catch(rre => console.error(rre))
+            .catch((rre:any) => console.error(rre))
     };
 
 
@@ -76,7 +76,6 @@ export default function RegisterPage() {
                 profileImage: result.user.photoURL ? result.user.photoURL : undefined,
                 providerUid: result.user.uid
             };
-            // console.log(result)
             createUserByProvider(user).then((rre: any) => {
                 if (rre?.data?.data) {
                     messageApi.open({
@@ -87,7 +86,7 @@ export default function RegisterPage() {
                     }
                     )
                     storeUserInfo({ accessToken: rre.data?.data?.credential?.accessToken })
-                    router.push('/')
+                    redirect('/')
                 } else {
                     messageApi.open({
                         key,
@@ -97,7 +96,7 @@ export default function RegisterPage() {
                     }
                     )
                 }
-            }).catch(rre => console.error(rre))
+            }).catch((rre:any) => console.error(rre))
 
         });
     }
@@ -120,9 +119,8 @@ export default function RegisterPage() {
                 profileImage: result.user.photoURL ? result.user.photoURL : undefined,
                 providerUid: result.user.uid
             };
-            // console.log(result)
             createUserByProvider(user).then((rre: any) => {
-                console.log(rre)
+                
                 if (rre?.data?.data) {
                     messageApi.open({
                         key,
@@ -132,7 +130,7 @@ export default function RegisterPage() {
                     }
                     )
                     storeUserInfo({ accessToken: rre.data?.data?.credential?.accessToken })
-                    router.push('/')
+                    redirect('/')
                 } else {
                     messageApi.open({
                         key,
@@ -142,7 +140,7 @@ export default function RegisterPage() {
                     }
                     )
                 }
-            }).catch(rre => console.error(rre))
+            }).catch((rre:any) => console.error(rre))
 
         });
 
@@ -155,7 +153,7 @@ export default function RegisterPage() {
                 profileImage: result.user.photoURL ? result.user.photoURL : undefined,
                 providerUid: result.user.uid
             };
-            createUserByProvider(user).then(rre => {
+            createUserByProvider(user).then((rre:any) => {
                 if ((rre as any).data) {
                     messageApi.open({
                         key,
@@ -165,7 +163,7 @@ export default function RegisterPage() {
                     }
                     )
                     storeUserInfo({ accessToken: (rre as any).data.credential.accessToken })
-                    router.push('/')
+                    redirect('/')
                 } else {
                     messageApi.open({
                         key,
@@ -175,7 +173,7 @@ export default function RegisterPage() {
                     }
                     )
                 }
-            }).catch(rre => console.error(rre))
+            }).catch((rre:any) => console.error(rre))
 
         })
             .catch((error) => {

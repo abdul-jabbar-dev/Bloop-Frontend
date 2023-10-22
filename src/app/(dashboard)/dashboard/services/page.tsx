@@ -33,8 +33,7 @@ export default function Services() {
     const debouncedTerm = useDebounced({
         searchQuery: searchTerm,
         delay: 600,
-    });
-    console.log(data)
+    }); 
     if (!!debouncedTerm) {
         query["searchTerm"] = debouncedTerm;
     }
