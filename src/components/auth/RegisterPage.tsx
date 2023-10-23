@@ -11,9 +11,9 @@ import firebaseApp from "../../utils/auth/firebaseApp";
 import TCreateUserData from "../../types/firebase/createUserInfo";
 import Form from "../ui/form/Form";
 import FormInput from "../ui/form/FormInput";
-import {redirect} from 'next/navigation'
+import { redirect, useRouter } from 'next/navigation'
 export default function RegisterPage() {
-
+    const Router = useRouter() || undefined
     const [messageApi, contextHolder] = message.useMessage();
     const [register] = useRegisterMutation()
     const [createUserByProvider] = useCreateUserByProviderMutation()
@@ -43,7 +43,7 @@ export default function RegisterPage() {
                     }
                     )
                     storeUserInfo({ accessToken: rre.data?.data?.accessToken })
-                    redirect('/')
+                    Router?.push('/')
                 } else {
                     messageApi.open({
                         key,
@@ -86,7 +86,7 @@ export default function RegisterPage() {
                     }
                     )
                     storeUserInfo({ accessToken: rre.data?.data?.credential?.accessToken })
-                    redirect('/')
+                    Router?.push('/')
                 } else {
                     messageApi.open({
                         key,
@@ -130,7 +130,7 @@ export default function RegisterPage() {
                     }
                     )
                     storeUserInfo({ accessToken: rre.data?.data?.credential?.accessToken })
-                    redirect('/')
+                    Router?.push('/')
                 } else {
                     messageApi.open({
                         key,
@@ -163,7 +163,7 @@ export default function RegisterPage() {
                     }
                     )
                     storeUserInfo({ accessToken: (rre as any).data.credential.accessToken })
-                    redirect('/')
+                    Router?.push('/')
                 } else {
                     messageApi.open({
                         key,

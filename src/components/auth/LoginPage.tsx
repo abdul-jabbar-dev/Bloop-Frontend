@@ -5,7 +5,7 @@ import { Button, Col, Row, message } from "antd";
 import { FacebookOutlined, GithubOutlined } from "@ant-design/icons";
 import Link from "next/link";
 
-import { redirect } from "next/navigation";
+import { useRouter, redirect } from "next/navigation"; 
 import { useCreateUserByProviderMutation, useLoginMutation } from "../../redux/app/apis/authApi";
 import SetLocalStore from "../../helpers/localStore/setLocalStore";
 import CONFIG from "../../config";
@@ -16,12 +16,11 @@ import firebaseApp from "../../utils/auth/firebaseApp";
 import TCreateUserData from "../../types/firebase/createUserInfo";
 
 export default function LoginPage() {
-
     const [messageApi, contextHolder] = message.useMessage();
     const key = 'updatable';
     const [createUserByProvider] = useCreateUserByProviderMutation()
     const [login, { isError, isLoading, isSuccess, data, status, error }] = useLoginMutation()
- 
+ const Router = useRouter()||undefined
     useEffect(() => {
         const isLogin = isLoggedIn()
         if (isLogin) {
@@ -87,7 +86,7 @@ export default function LoginPage() {
                         }
                         )
                         storeUserInfo({ accessToken: rre.data?.data?.credential.accessToken })
-                        redirect('/')
+                        Router?.push('/')
                     } else {
                         messageApi.open({
                             key,
@@ -130,7 +129,7 @@ export default function LoginPage() {
                         }
                         )
                         storeUserInfo({ accessToken: rre.data?.data?.credential.accessToken })
-                        redirect('/')
+                        Router?.push('/')
                     } else {
                         messageApi.open({
                             key,
@@ -165,7 +164,7 @@ export default function LoginPage() {
             }
             )
             storeUserInfo({ accessToken: res.data?.data?.accessToken })
-            redirect('/')
+            Router?.push('/')
         } else {
             messageApi.open({
                 key,
@@ -180,7 +179,7 @@ export default function LoginPage() {
 
         if (res?.data?.data) {
             SetLocalStore(CONFIG.authKey, res?.data?.data?.accessToken)
-            redirect('/')
+            Router?.push('/')
         }
     };
     return (
