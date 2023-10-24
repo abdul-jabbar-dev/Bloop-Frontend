@@ -1,6 +1,6 @@
 'use client'
 import dayjs from "dayjs";
-import  { useState } from "react";
+import { useState } from "react";
 import TheTable from "../../../../components/ui/data/TheTable";
 import { Badge, Button, Col, Input, Row, Space } from "antd";
 import { useDebounced } from "../../../../redux/hooks/hooks";
@@ -37,67 +37,80 @@ export default function ServiceProvider() {
   }
 
 
-
   if (!(data?.data)) {
-    return <Loading/>
+    return <Loading />
   }
-  const columns= [
+  const columns = [{
+    title: 'Provider Id',
+    dataIndex: 'providerId',
+    key: 'providerId',
+    fixed: 'left',
+    width: 80,
+  }, {
+    title: 'Full Name',
+    dataIndex: 'user',
+    render: (a: any) => a?.firstName + " " + a?.lastName,
+    key: 'user',
 
-    {
-      title: 'Full Name',
-      dataIndex: 'fullName',
-      key: 'fullName',
-      children: [{
-        title: 'Fist Name',
-        dataIndex: 'firstName',
-        key: 'firstName',
-
-      },
-      {
-        title: 'Last Name',
-        dataIndex: 'lastName',
-        key: 'lastName',
-      },]
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    }, {
-      title: 'gender ',
-      dataIndex: 'gender',
-      key: 'gender',
-    }, {
-      title: 'status ',
-      dataIndex: 'status',
-      key: 'status',
-      sorter: true,
-      render: (dataa:any) => {
-        if (dataa === 'active') {
-          return <Badge status="success" text={dataa} />
-        } else if (dataa === 'deactive') {
-          return <Badge status='error' text={dataa} />
-        } else {
-          return dataa
-        }
+  },
+  {
+    title: 'Email',
+    dataIndex: 'user',
+    render: (a: any) => a?.email,
+    key: 'user.email',
+  }, {
+    title: 'Service Category',
+    dataIndex: 'serviceType',
+    render: (a: any) => a.title,
+    key: 'serviceType',
+  }, {
+    title: 'Gender ',
+    dataIndex: 'user',
+    render: (a: any) => a?.gender || <p className="text-2xl">-</p>,
+    key: 'user.gender',
+  }, {
+    title: 'Status ',
+    dataIndex: 'status',
+    key: 'status',
+    sorter: true,
+    render: (dataa: any) => {
+      if (dataa === 'active') {
+        return <Badge status="success" text={dataa} />
+      } else if (dataa === 'deactive') {
+        return <Badge status='error' text={dataa} />
+      } else {
+        return dataa
       }
+    }
+  }, {
+    title: 'Availability ',
+    dataIndex: 'availability',
+    key: 'availability',
+    sorter: true,
+    render: (availability: boolean) => {
+      if (availability) {
+        return <Badge status="success" text={'Free'} />
+      } else {
+        return <Badge status='error' text={'Busy'} />
+      }
+    }
+  },
+  {
+    title: "CreatedAt",
+    dataIndex: "createdAt",
+    render: function (data: any) {
+      return data && dayjs(data).format("MMM D, YYYY hh:mm A");
     },
-    {
-      title: "CreatedAt",
-      dataIndex: "createdAt",
-      render: function (data: any) {
-        return data && dayjs(data).format("MMM D, YYYY hh:mm A");
-      },
-      sorter: true,
-    }, {
-      title: 'Action',
-      key: 'action',
-      render: () => (
-        <Space size="middle">
-          <a>Delete</a>
-        </Space>
-      ),
-    },
+    sorter: true,
+  }, {
+    title: 'Action',
+    key: 'action',
+    render: () => (
+      <Space size="middle">
+        <a>Delete</a>
+      </Space>
+    ),
+  },
   ];
   const onPaginationChange = (page: number, pageSize: number) => {
     setPage(page);
@@ -123,6 +136,7 @@ export default function ServiceProvider() {
     <TheTable columns={columns} loading={isLoading || !data?.data} dataSource={data?.data} pageSize={size}
       totalPages={data?.meta?.total}
       showSizeChanger={true}
+      rowKey='id'
       onPaginationChange={onPaginationChange}
       onTableChange={onTableChange}
       showPagination={true} />

@@ -7,23 +7,22 @@ import Loading from '../../loading'
 import { TUser } from '../../../../../types/users/user'
 import { ERole, EStatus } from '../../../../../types/common'
 import { UserOutlined } from '@ant-design/icons'
-import { useGetServiceTypeQuery } from '../../../../../redux/app/serviceTypeAndProvider/serviceTypeAndProvider'
+import { useCreateServiceProviderMutation, useGetServiceTypeQuery } from '../../../../../redux/app/serviceTypeAndProvider/serviceTypeAndProvider'
 import { TServiceType } from '../../../../../types/serviceType/serviceType'
 import { DefaultOptionType } from 'antd/es/select'
 import serviceProviderBG from '../../../../../assets/servicePage/serviceProvider.gif'
 import FormBody from '../../../../../components/ui/formBodyPage/FormBody'
 import Image from 'next/image'
-import { TServiceProvider } from '../../../../../types/serviceProvider/serviceProvider'
-import { useCreateUserByProviderMutation } from '../../../../../redux/app/apis/authApi'
+import { TCreateServiceProvider } from '../../../../../types/serviceProvider/serviceProvider' 
 export default function Page() {
     const [messageApi, contextHolder] = message.useMessage();
     const key = 'ServiceProvider'
     const { data: subscriberData, isLoading: sisLoading } = useGetSubscribersQuery({})
     const { data: serviceType, isLoading: serisLoading } = useGetServiceTypeQuery({ role: ERole.subscriber })
-    const [createProvider] = useCreateUserByProviderMutation()
+    const [createProvider] =useCreateServiceProviderMutation()
 
     const data = subscriberData?.data
-    if (sisLoading || serisLoading)  return <Loading />
+    if (sisLoading || serisLoading) return <Loading />
 
     const userOptions = (data && data.data) ? [...data?.data?.filter((s: TUser) => s.role === ERole.subscriber && s.status === EStatus.active).map((subscribe: TUser) => {
         return {
@@ -42,28 +41,36 @@ export default function Page() {
         value: st.id
 
     }))] : []
-    const createANewServiceProvider = (providerInfo: TServiceProvider) => {
-        createProvider(providerInfo).then((rre:any) => {
-            
-            if ((rre as any)?.data?.data) {
-                messageApi.open({
-                    key,
-                    type: 'success',
-                    content: 'Successfully create service provider',
-                    duration: 2,
-                }
-                )
+    const createANewServiceProvider = (providerInfo: TCreateServiceProvider) => {
+        messageApi.open({
+            key,
+            type: 'loading',
+            content: 'Service provider Creating',
+            duration: 2
+        })
+        console.log(providerInfo)
+        createProvider(providerInfo)
+            .then((rre: any) => {
+                console.log(rre)
+                if ((rre as any)?.data?.data) {
+                    messageApi.open({
+                        key,
+                        type: 'success',
+                        content: 'Successfully create service provider',
+                        duration: 2,
+                    }
+                    )
 
-            } else {
-                messageApi.open({
-                    key,
-                    type: 'error',
-                    content: (rre as any)?.error?.message || (rre as any)?.error?.data,
-                    duration: 2,
+                } else {
+                    messageApi.open({
+                        key,
+                        type: 'error',
+                        content: (rre as any)?.error?.message || (rre as any)?.error?.data,
+                        duration: 2,
+                    }
+                    )
                 }
-                )
-            }
-        }).catch((rre:any) => console.error(rre))
+            }).catch((rre: any) => console.error(rre))
 
     }
     return (
@@ -72,7 +79,7 @@ export default function Page() {
                 <Form submitHandler={createANewServiceProvider}>
                     <Row>
                         <Col span={24}>
-                            <FormSelect placeholder='New Worker' label='Select New Service provider' style={{ width: "50%", height: "100%" }} optionsValue={userOptions} name='serviceId' />
+                            <FormSelect placeholder='New Worker' label='Select New Service provider' style={{ width: "50%", height: "100%" }} optionsValue={userOptions} name='userId' />
                         </Col>
                         <Col span={24} className='mt-2'>
                             <FormSelect placeholder='Select Service type' label='Select Service category to handle new service provider' style={{ width: "50%" }} optionsValue={serviceTypeOptions} name='serviceTypeId' />

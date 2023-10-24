@@ -10,5 +10,6 @@ type TService = {
   serviceGuarantee: string;
   serviceItem: string[];
   thumbnail?: string;
+  service?:Record<string,any>
 };
 export default TService;

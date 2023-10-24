@@ -8,21 +8,19 @@ import { useGetMyInfoQuery } from '../../redux/app/apis/authApi';
 import GetLocalStore from '../../helpers/localStore/getLocalStore';
 import CONFIG from '../../config';
 import { isLoggedIn } from '../../utils/auth.service';
-import {redirect } from 'next/navigation';
+import { redirect } from 'next/navigation';
+const IsLogin = isLoggedIn() 
 
 
 export default function DashboardSidebar() {
-
   const { data: myData, isLoading } = useGetMyInfoQuery(null, { skip: !GetLocalStore(CONFIG.authKey) })
   const [collapsed, setCollapsed] = useState(false);
-  const IsLogin = isLoggedIn()
-  if (isLoading) {
+  const data = myData?.data 
+  if (isLoading || !IsLogin  ) {
     return <div>'Loading...'</div>
-  } if (!IsLogin) {
+  } else if (!isLoading && !IsLogin) {
     redirect('/')
-    return <></>
   }
-  const data = myData?.data
   const rendedMenu = () => {
     if (data?.role === 'subscriber') {
       return DashboardSubscriberMenu({ data, collapsed })
@@ -32,9 +30,11 @@ export default function DashboardSidebar() {
   }
 
   return (
-    <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-      <div className="demo-logo-vertical" />
-      <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={rendedMenu()} />
-    </Sider>
+    <div>
+      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+        <div className="demo-logo-vertical" ></div>
+        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={rendedMenu()} />
+      </Sider>
+    </div>
   )
 }

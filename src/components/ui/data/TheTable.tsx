@@ -13,7 +13,7 @@ type UMTableProps = {
     showSizeChanger?: boolean;
     onPaginationChange?: (page: number, pageSize: number) => void;
     onTableChange?: (pagination: any, filter: any, sorter: any) => void;
-    showPagination?: boolean;
+    showPagination?: boolean; rowKey?: string,
     expandable?: ExpandableConfig<AnyObject> | undefined
 };
 
@@ -23,6 +23,7 @@ const TheTable = ({
     dataSource,
     pageSize,
     totalPages,
+    rowKey,
     showSizeChanger = true,
     onPaginationChange,
     onTableChange,
@@ -44,8 +45,8 @@ const TheTable = ({
             loading={loading}
             expandable={expandable}
             columns={columns}
-            
             dataSource={dataSource}
+            rowKey={rowKey}
             pagination={paginationConfig}
             onChange={onTableChange}
         />

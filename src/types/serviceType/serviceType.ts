@@ -1,4 +1,6 @@
 export type TServiceType = {
   id?: string;
-  title: string; 
+  title: string;
+  createdAt?: string;
+  updatedAt?: string;
 };

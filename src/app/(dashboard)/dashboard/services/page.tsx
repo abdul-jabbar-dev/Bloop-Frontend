@@ -57,6 +57,9 @@ export default function Services() {
             title: 'Service Category',
             dataIndex: 'serviceTypeId',
             key: 'serviceTypeId',
+            render(value, record, index) {
+                return record.service.title
+            },
         }, {
             title: 'Service Area',
             dataIndex: 'serviceArea',
