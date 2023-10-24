@@ -1,8 +1,9 @@
 "use client";
 import { DatePicker, Input } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
- 
-import { CSSProperties,  ReactElement } from "react";
+import dayjs from "dayjs";
+import type { Dayjs } from 'dayjs';
+import { CSSProperties, ReactElement } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
 type Props = {
@@ -10,28 +11,33 @@ type Props = {
   type?: string;
   placeholder?: string;
   size?: SizeType;
-  value?: string;
   prefix?: ReactElement | any;
+  value?: string;
   label?: string;
   style?: CSSProperties;
   id?: string;
+  format?: string
+  pickerValue?: Dayjs
   required?: boolean;
   inputClassName?: string;
+  onchange?: (e: dayjs.Dayjs | null, a: string) => void,
   picker?: "date" | "week" | "month" | "quarter" | "year",
   isNotEditable?: boolean;
 };
 export default function FormDatePicker({
   name,
-  value,
+  pickerValue, value,
   placeholder,
   id,
   picker,
+  format,
+  onchange,
   inputClassName,
   label,
   style,
   required, isNotEditable,
 }: Props) {
-  const { control } = useFormContext();
+  const contex = useFormContext();
   if (isNotEditable) {
     return <p style={style}>{value}</p>
   }
@@ -48,9 +54,9 @@ export default function FormDatePicker({
           {required && <sup className="text-red-700">*</sup>}
         </p>
       ) : null}
-      <Controller
+      {(contex?.control) ? <Controller
         defaultValue={value}
-        control={control}
+        control={contex?.control}
         name={name}
         render={({ field }) =>
           <DatePicker
@@ -58,15 +64,26 @@ export default function FormDatePicker({
             style={{ margin: "10px 0", ...style }}
             name={field.name}
             className={inputClassName}
-            id={id} 
+            id={id}
             placeholder={placeholder}
-            onChange={(e, a) => console.log(e, a, i)}
+            onChange={onchange === null ? () => { } : onchange}
             picker={picker}
-            
+
           />
 
         }
-      />
+      /> : <DatePicker
+        style={{ margin: "10px 0", ...style }}
+        name={name}
+        className={inputClassName}
+        id={id}
+        value={pickerValue}
+        placeholder={placeholder}
+        format={format}
+        onChange={onchange === null ? () => { } : onchange}
+        picker={picker}
+
+      />}
     </>
   );
 }

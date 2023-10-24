@@ -4,7 +4,7 @@ import { Avatar, Col, Dropdown, Row } from "antd";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import serviceType from "../../data/category";
-import {  isLoggedIn } from "../../utils/auth.service";
+import { isLoggedIn } from "../../utils/auth.service";
 import { useGetMyInfoQuery } from "../../redux/app/apis/authApi";
 import Loading from "../../app/(home)/(serviceType)/services/loading";
 import SubscriberMenu from "./menus/subscriberMenu";
@@ -24,7 +24,7 @@ const RenderedMenu = ({ data, IsLogin }: { data: any, IsLogin: Boolean }): React
   }
   if (data?.role === 'subscriber') return <SubscriberMenu data={data} />
 }
- 
+
 export default function RootHeader() {
   const { data: myData } = useGetMyInfoQuery(null, { skip: !GetLocalStore(CONFIG.authKey) })
   const [services, setServices] = useState<{ title: string }[]>([]);
@@ -89,7 +89,7 @@ export default function RootHeader() {
             Log in <ArrowRightOutlined />
           </Link>}
         </div>
-        <ModelCart><ShoppingCartOutlined /></ModelCart>
+        {(IsLogin && data) && <ModelCart><ShoppingCartOutlined /></ModelCart>}
       </nav>
     </header>
   );
