@@ -1,3 +1,5 @@
+import { TServiceType } from "../serviceType/serviceType";
+
 type TService = {
   id: string;
   title: string;
@@ -10,6 +12,7 @@ type TService = {
   serviceGuarantee: string;
   serviceItem: string[];
   thumbnail?: string;
-  service?:Record<string,any>
+  service?:TServiceType
+  image?:Record<string,any>, 
 };
 export default TService;

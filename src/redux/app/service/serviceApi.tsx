@@ -19,6 +19,7 @@ const serviceApi = baseAPI.injectEndpoints({
         }),
         getAllService: build.query({
             query: (arg: Record<string, any>) => {
+                 
                 return {
                     url: `/service`,
                     method: "GET",

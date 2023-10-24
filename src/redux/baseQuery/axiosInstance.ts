@@ -34,7 +34,7 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   // @ts-ignore
-  function (response: any) {
+  function (response: any) { 
     const responseObject: TResponse = {
       data: response?.data,
       meta: response?.meta,
