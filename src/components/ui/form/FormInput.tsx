@@ -12,8 +12,9 @@ type Props = {
   value?: string;
   prefix?: ReactElement | any;
   label?: string;
-  style?: CSSProperties;
+  style?: CSSProperties; 
   id?: string;
+  ifBorder?:boolean;
   required?: boolean;
   inputClassName?: string;
   isNotEditable?: boolean; 
@@ -24,6 +25,7 @@ export default function FormInput({
   placeholder,
   size,
   id,
+ ifBorder=true,
   type,
   prefix,
   inputClassName,
@@ -60,11 +62,11 @@ export default function FormInput({
               style={{ margin: "10px 0", ...style }}
               name={field.name}
               size={size}
-              id={id}
+              id={id} 
               placeholder={placeholder}
               prefix={prefix}
               required={required}
-
+              bordered={ifBorder}
               className={inputClassName}
             />
           ) : (
@@ -74,8 +76,9 @@ export default function FormInput({
               style={{ margin: "10px 0", ...style }}
               size={size}
               className={inputClassName}
-              id={id}
+              id={id} 
               type={type}
+              bordered={ifBorder}
               placeholder={placeholder}
               prefix={prefix} 
               required={required}

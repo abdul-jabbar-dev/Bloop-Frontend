@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Drawer } from 'antd';
+import { Badge, Drawer } from 'antd';
+import { useGetFromCartQuery } from '../../../redux/app/cart/cartApi';
+import GetLocalStore from '../../../helpers/localStore/getLocalStore';
+import CONFIG from '../../../config';
+import { TCart } from '../../../types/cart/cartItem';
 import CartItem from './CartItem';
-import { getFromCart } from '../../../helpers/cart/cart';
-import { TCartItem } from '../../../types/cart/cartItem';
+
 
 const ModelCart = ({ children }: {
     children: React.ReactElement
 }) => {
+    const { data: carts } = useGetFromCartQuery(null, { skip: !GetLocalStore(CONFIG.authKey) })
+
     const [onSelect, setOnSelect] = useState<string>("")
     const [open, setOpen] = useState<boolean>(false);
-
     const showDrawer = () => {
         setOpen(true);
     };
@@ -21,8 +25,8 @@ const ModelCart = ({ children }: {
 
     return (
         <>
-            <div onClick={showDrawer}>{children}</div>
-            <Drawer rootStyle={{ width: "100%" }} title="Basic Drawer" placement="right" onClose={onClose} open={open}>
+            <Badge size="small" count={carts?.data?.length||'-'}>  <div onClick={showDrawer}>{children}</div></Badge>
+            <Drawer size='default' rootStyle={{ width: "100%" }} placement="right" onClose={onClose} open={open}>
                 <div className="relative overflow-x-hidden flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 w-full mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3]">
                     <div className="flex items-center justify-between rounded-t-3xl px-3 w-full">
                         <div className="text-lg font-bold text-navy-700  ">
@@ -33,7 +37,7 @@ const ModelCart = ({ children }: {
                         </button>
                     </div>
                     {
-                        getFromCart()?.map((item: TCartItem) => <CartItem onSelect={onSelect} setOnSelect={setOnSelect} item={item} />)
+                        carts?.data?.map((item: TCart) =>  <CartItem onSelect={onSelect} setOnSelect={setOnSelect} item={item} />)
                     }
 
                 </div>

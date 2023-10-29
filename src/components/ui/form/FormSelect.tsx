@@ -16,6 +16,7 @@ type Props = {
   required?: boolean;
   isNotEditable?: boolean,
   optionsValue: DefaultOptionType[],
+  ifBorder?: boolean;
   mode?: "multiple" | "tags"
 
 };
@@ -26,6 +27,7 @@ export default function FormSelect({
   id,
   label,
   style,
+  ifBorder = true,
   required, isNotEditable,
   mode,
   placeholder,
@@ -41,7 +43,7 @@ export default function FormSelect({
   return (
     <>
 
-      <div>
+      <div className="w-full">
         {label ? (
           <p>
             {<label
@@ -58,8 +60,11 @@ export default function FormSelect({
           id={id}
           size={size}
           mode={mode}
+          status={required ? 'error' : ""}
           defaultValue={value}
           style={style}
+          popupMatchSelectWidth={500}
+          bordered={ifBorder}
           placeholder={placeholder}
           onChange={(value) => props.setValue(name, value)}
           options={optionsValue}

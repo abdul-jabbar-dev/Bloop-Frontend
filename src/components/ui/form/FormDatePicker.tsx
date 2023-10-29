@@ -3,8 +3,10 @@ import { DatePicker, Input } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import dayjs from "dayjs";
 import type { Dayjs } from 'dayjs';
+import moment from "moment";
 import { CSSProperties, ReactElement } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { dateFormat } from "../../../constaint/dateFormat";
 
 type Props = {
   name: string;
@@ -16,14 +18,18 @@ type Props = {
   label?: string;
   style?: CSSProperties;
   id?: string;
+  ifDisabledPast?: boolean,
   format?: string
   pickerValue?: Dayjs
   required?: boolean;
   inputClassName?: string;
+  DisabledDays?: Dayjs[]
   onchange?: (e: dayjs.Dayjs | null, a: string) => void,
   picker?: "date" | "week" | "month" | "quarter" | "year",
   isNotEditable?: boolean;
 };
+
+
 export default function FormDatePicker({
   name,
   pickerValue, value,
@@ -33,11 +39,28 @@ export default function FormDatePicker({
   format,
   onchange,
   inputClassName,
+  DisabledDays,
+  ifDisabledPast,
   label,
   style,
   required, isNotEditable,
 }: Props) {
   const contex = useFormContext();
+
+
+
+  const DisableDate = (current: Dayjs): boolean => {
+    var startDate = moment().subtract(1, 'days')
+    if (DisabledDays!==undefined) {
+      var endDate = DisabledDays?.map((d: Dayjs) => moment(d.toDate()).format(dateFormat));
+      if(endDate?.includes(current?.format(dateFormat))) return true
+    }
+    if (ifDisabledPast) {
+      return startDate > current
+    }
+    return false
+
+  }
   if (isNotEditable) {
     return <p style={style}>{value}</p>
   }
@@ -61,6 +84,7 @@ export default function FormDatePicker({
         render={({ field }) =>
           <DatePicker
             {...field}
+            disabledDate={DisabledDays !== undefined ? DisableDate : undefined}
             style={{ margin: "10px 0", ...style }}
             name={field.name}
             className={inputClassName}
@@ -68,11 +92,12 @@ export default function FormDatePicker({
             placeholder={placeholder}
             onChange={onchange === null ? () => { } : onchange}
             picker={picker}
-
           />
 
         }
       /> : <DatePicker
+        disabledDate={DisableDate}
+        // disabledDate={(ifDisabledPast && DisabledDays) ? DisableDate : undefined}
         style={{ margin: "10px 0", ...style }}
         name={name}
         className={inputClassName}

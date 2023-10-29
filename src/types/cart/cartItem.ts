@@ -1,1 +1,10 @@
-export type TCartItem = { serviceId: string; cartId: string; date?: string };
+import TService from "../Service/Service";
+import { TUser } from "../users/user";
+
+export type TCart = {
+  serviceId: string;
+  id: string;
+  date?: string;
+  user: TUser;
+  service?:TService
+};
