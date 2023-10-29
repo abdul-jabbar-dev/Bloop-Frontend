@@ -54,7 +54,6 @@ export default function FormInput({
         defaultValue={value}
         control={control}
         name={name}
-
         render={({ field }) =>
           type === "password" ? (
             <Input.Password

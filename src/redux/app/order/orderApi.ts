@@ -1,21 +1,26 @@
 import CONFIG from "../../../config";
 import GetLocalStore from "../../../helpers/localStore/getLocalStore";
+import { TCreateServicePlaced } from "../../../types/servicePlaced/servicePlaced";
 import { baseAPI } from "../baseApi";
 
-const cartApi = baseAPI.injectEndpoints({
+const orderApi = baseAPI.injectEndpoints({
   endpoints: (build) => ({
-    addToCart: build.mutation({
-      query: ({ serviceId }: { serviceId: string }) => {
+    createOrder: build.mutation({
+      query: ({
+        servicePlacedInfo,
+      }: {
+        servicePlacedInfo: TCreateServicePlaced;
+      }) => {
         return {
-          url: `/cart/add-to-cart`,
+          url: `/order/create-order`,
           method: "POST",
-          data: { serviceId },
+          data: servicePlacedInfo,
           headers: {
             Authorization: GetLocalStore(CONFIG.authKey),
           },
         };
       },
-      invalidatesTags: ["cart"],
+      invalidatesTags: ["order"],
     }),
 
     getFromCart: build.query({
@@ -103,12 +108,4 @@ const cartApi = baseAPI.injectEndpoints({
     }),
   }),
 });
-export const {
-  useAddToCartMutation,
-  useGetFromCartQuery,
-  useSetDateIntoItemCartMutation,
-  useRemoveItemCartMutation,
-  useRemoveDateFromItemCartMutation,
-  useGetItemFromCartQuery,
-  useGetACartQuery
-} = cartApi;
+export const { useCreateOrderMutation } = orderApi;

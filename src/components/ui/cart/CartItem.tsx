@@ -66,7 +66,7 @@ export default function CartItem({ item, setOnSelect, onSelect }: { onSelect: st
                 <CloseCircleOutlined onClick={removeFromItemCart} className='w-min hover:rounded-full p-1 hover:bg-gray-200 cursor-pointer' />
             </div>
             {/* <div>
-                <FormDatePicker ifDisabledPast DisabledDays={[dayjs('26-10-2023', dateFormat), dayjs('29-10-2023', dateFormat)]} format={dateFormat} size='small' placeholder='Order Date' onchange={(_, date) => setDateIntoItem({ itemId: item.id, date })} name='servicingDate' />
+                <FormDatePicker ifDisabledPast DisabledDays={[dayjs('26-10-2023', dateFormat), dayjs('29-10-2023', dateFormat)]} format={dateFormat} size='small' placeholder='Order Date' onchange={(_, date) => setDateIntoItem({ itemId: item.id, date })} name='bookingDate' />
                 <div className='rounded-[10px] border-[1px] border-gray-200 w-full mx-auto p-3 bg-white bg-clip-border shadow-md shadow-[#e2e1e16a]'>
                     Appointment date
                     {item.date}

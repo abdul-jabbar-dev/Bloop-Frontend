@@ -4,7 +4,7 @@ import { SizeType } from "antd/es/config-provider/SizeContext";
 import dayjs from "dayjs";
 import type { Dayjs } from 'dayjs';
 import moment from "moment";
-import { CSSProperties, ReactElement } from "react";
+import { CSSProperties, ReactElement, useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { dateFormat } from "../../../constaint/dateFormat";
 
@@ -44,16 +44,20 @@ export default function FormDatePicker({
   label,
   style,
   required, isNotEditable,
-}: Props) {
-  const contex = useFormContext();
+}: Props) { 
+  const contex = useFormContext()
 
 
+  const handleChange = (value: dayjs.Dayjs, dateString: string) => {
+
+    onchange && onchange(value, dateString)
+  }
 
   const DisableDate = (current: Dayjs): boolean => {
     var startDate = moment().subtract(1, 'days')
-    if (DisabledDays!==undefined) {
+    if (DisabledDays !== undefined) {
       var endDate = DisabledDays?.map((d: Dayjs) => moment(d.toDate()).format(dateFormat));
-      if(endDate?.includes(current?.format(dateFormat))) return true
+      if (endDate?.includes(current?.format(dateFormat))) return true
     }
     if (ifDisabledPast) {
       return startDate > current
@@ -77,7 +81,7 @@ export default function FormDatePicker({
           {required && <sup className="text-red-700">*</sup>}
         </p>
       ) : null}
-      {(contex?.control) ? <Controller
+      {(contex?.control) && <Controller
         defaultValue={value}
         control={contex?.control}
         name={name}
@@ -86,16 +90,17 @@ export default function FormDatePicker({
             {...field}
             disabledDate={DisabledDays !== undefined ? DisableDate : undefined}
             style={{ margin: "10px 0", ...style }}
-            name={field.name}
+            name={name}
             className={inputClassName}
             id={id}
+            format={format}
             placeholder={placeholder}
-            onChange={onchange === null ? () => { } : onchange}
+            onChange={onchange === null ? () => { } : ((value: dayjs.Dayjs, dateString: string) => handleChange(value, dateString))}
             picker={picker}
           />
 
         }
-      /> : <DatePicker
+      /> /* : <DatePicker
         disabledDate={DisableDate}
         // disabledDate={(ifDisabledPast && DisabledDays) ? DisableDate : undefined}
         style={{ margin: "10px 0", ...style }}
@@ -108,7 +113,9 @@ export default function FormDatePicker({
         onChange={onchange === null ? () => { } : onchange}
         picker={picker}
 
-      />}
+      />
+      */
+      }
     </>
   );
 }

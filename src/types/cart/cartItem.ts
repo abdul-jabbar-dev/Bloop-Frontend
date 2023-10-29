@@ -4,7 +4,7 @@ import { TUser } from "../users/user";
 export type TCart = {
   serviceId: string;
   id: string;
-  date?: string;
-  user: TUser;
-  service?:TService
+  bookingDate?: string;
+  user?: TUser;
+  service?: TService;
 };
