@@ -67,10 +67,6 @@ export default function RootHeader() {
               All Services <DownOutlined />
             </Link>
           </Dropdown>
-
-          <a href="#" className="text-lg text-gray-900">
-            Company
-          </a>
         </div>
         <Space size={'large'} className=" flex flex-1 justify-end">
           {(IsLogin && data) && <ModelCart><Avatar className="hover:cursor-pointer btn-primary" alt="asdfsadf" icon={<ShoppingCartOutlined />} size="large"></Avatar></ModelCart>}

@@ -25,7 +25,7 @@ const ModelCart = ({ children }: {
 
     return (
         <>
-            <Badge size="small" count={carts?.data?.length||'-'}>  <div onClick={showDrawer}>{children}</div></Badge>
+            <Badge size="small" count={carts?.data?.length || '-'}>  <div onClick={showDrawer}>{children}</div></Badge>
             <Drawer size='default' rootStyle={{ width: "100%" }} placement="right" onClose={onClose} open={open}>
                 <div className="relative overflow-x-hidden flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 w-full mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3]">
                     <div className="flex items-center justify-between rounded-t-3xl px-3 w-full">
@@ -37,7 +37,7 @@ const ModelCart = ({ children }: {
                         </button>
                     </div>
                     {
-                        carts?.data?.map((item: TCart) =>  <CartItem onSelect={onSelect} setOnSelect={setOnSelect} item={item} />)
+                        carts?.data?.map((item: TCart, i: number) => <CartItem key={i} onSelect={onSelect} setOnSelect={setOnSelect} item={item} />)
                     }
 
                 </div>

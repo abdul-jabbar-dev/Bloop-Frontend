@@ -1,5 +1,6 @@
 import CONFIG from "../../../config";
 import GetLocalStore from "../../../helpers/localStore/getLocalStore";
+import { TCreatePayment } from "../../../types/servicePlaced/payment/payment";
 import { TCreateServicePlaced } from "../../../types/servicePlaced/servicePlaced";
 import { baseAPI } from "../baseApi";
 
@@ -23,23 +24,10 @@ const orderApi = baseAPI.injectEndpoints({
       invalidatesTags: ["order"],
     }),
 
-    getFromCart: build.query({
-      query: () => {
-        return {
-          url: `/cart/get-from-cart`,
-          method: "GET",
-          headers: {
-            Authorization: GetLocalStore(CONFIG.authKey),
-          },
-        };
-      },
-      providesTags: ["cart"],
-    }),
-
-    getACart: build.query({
+    getServicePlacedByCartId: build.query({
       query: ({ cartId }: { cartId: string }) => {
         return {
-          url: `/cart/get-from-cart/` + cartId,
+          url: "/order/find-by-cartId/" + cartId,
           method: "GET",
           headers: {
             Authorization: GetLocalStore(CONFIG.authKey),
@@ -48,11 +36,10 @@ const orderApi = baseAPI.injectEndpoints({
       },
       providesTags: ["cart"],
     }),
-
-    getItemFromCart: build.query({
+    getMyOrders: build.query({
       query: () => {
         return {
-          url: `/cart/get-cart-item`,
+          url: "/order/find-my-orders",
           method: "GET",
           headers: {
             Authorization: GetLocalStore(CONFIG.authKey),
@@ -62,50 +49,28 @@ const orderApi = baseAPI.injectEndpoints({
       providesTags: ["cart"],
     }),
 
-    setDateIntoItemCart: build.mutation({
+    makePaymentAndConfirm: build.mutation({
       query: ({
-        bookingDate,
-        itemId,
+        servicePlacedInfo: createPaymentInfo,
       }: {
-        bookingDate: string;
-        itemId: string;
+        servicePlacedInfo: TCreatePayment;
       }) => {
         return {
-          url: `/cart/set-date/` + itemId,
-          method: "PATCH",
-          data: { bookingDate },
+          url: `/order/confirm-payment`,
+          method: "POST",
+          data: createPaymentInfo,
           headers: {
             Authorization: GetLocalStore(CONFIG.authKey),
           },
         };
       },
-      invalidatesTags: ["cart"],
-    }),
-
-    removeDateFromItemCart: build.mutation({
-      query: (itemId: string) => {
-        return {
-          url: `/cart/remove-date/` + itemId,
-          method: "DELETE",
-          headers: {
-            Authorization: GetLocalStore(CONFIG.authKey),
-          },
-        };
-      },
-      invalidatesTags: ["cart"],
-    }),
-    removeItemCart: build.mutation({
-      query: (itemId: string) => {
-        return {
-          url: `/cart/remove-cart/` + itemId,
-          method: "DELETE",
-          headers: {
-            Authorization: GetLocalStore(CONFIG.authKey),
-          },
-        };
-      },
-      invalidatesTags: ["cart"],
+      invalidatesTags: ["order"],
     }),
   }),
 });
-export const { useCreateOrderMutation } = orderApi;
+export const {
+  useCreateOrderMutation,
+  useGetServicePlacedByCartIdQuery,
+  useMakePaymentAndConfirmMutation,
+  useGetMyOrdersQuery,
+} = orderApi;

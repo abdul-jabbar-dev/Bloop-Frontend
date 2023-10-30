@@ -5,8 +5,7 @@ import Image from 'next/image'
 import { Collapse, CollapseProps, List } from 'antd'
 import Link from 'next/link'
 
-export default function CheckOutItem({ data }: { data: TCart }) {
-    console.log(data)
+export default function CheckOutItem({ data }: { data: TCart }) { 
     const service = data?.service
     if (!service) {
         return <Loading />

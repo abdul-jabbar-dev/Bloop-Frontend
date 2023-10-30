@@ -2,7 +2,7 @@
 import { Col, Divider, Select } from "antd";
 import { SizeType } from "antd/es/config-provider/SizeContext";
 import { DefaultOptionType } from "antd/es/select";
-import { CSSProperties, ReactNode } from "react";
+import { CSSProperties, ReactNode, useState } from "react";
 import { useFormContext } from "react-hook-form";
 type Props = {
   name: string;
@@ -17,7 +17,9 @@ type Props = {
   isNotEditable?: boolean,
   optionsValue: DefaultOptionType[],
   ifBorder?: boolean;
+  inputClassName?: string,
   mode?: "multiple" | "tags"
+  selectedData?: (value: string, option: DefaultOptionType) => void
 
 };
 export default function FormSelect({
@@ -27,8 +29,9 @@ export default function FormSelect({
   id,
   label,
   style,
+  inputClassName,
   ifBorder = true,
-  required, isNotEditable,
+  required, isNotEditable, selectedData = () => { },
   mode,
   placeholder,
   optionsValue
@@ -42,7 +45,6 @@ export default function FormSelect({
   }
   return (
     <>
-
       <div className="w-full">
         {label ? (
           <p>
@@ -63,6 +65,8 @@ export default function FormSelect({
           status={required ? 'error' : ""}
           defaultValue={value}
           style={style}
+          onSelect={selectedData}
+          className={inputClassName}
           popupMatchSelectWidth={500}
           bordered={ifBorder}
           placeholder={placeholder}

@@ -17,7 +17,7 @@ export default function page(props) {
                 <BackButton link='#' />
             </div>
             <div className="flex flex-col justify-start items-start w-full space-y-9">
-                <CartTitleBar Title='Cart' />
+                <CartTitleBar Title='Checkout' />
                 <div className="flex flex-col xl:flex-row justify-center xl:justify-between space-y-6 xl:space-y-0 xl:space-x-6 w-full">
 
                     <div className="  flex justify-center h-full  bg-gray-100 py-7 pt-8 p-4 xl:w-1/5 rounded-md">
