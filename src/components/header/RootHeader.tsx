@@ -1,16 +1,16 @@
 "use client";
-import { ArrowRightOutlined, DownOutlined,  UserOutlined } from "@ant-design/icons";
-import { Avatar, Col, Dropdown, Row } from "antd";
+import { ArrowRightOutlined, DownOutlined, ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import { Avatar, Badge, Col, Dropdown, Row, Space } from "antd";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import serviceType from "../../data/category";
-import { getUserInfo, isLoggedIn } from "../../utils/auth.service";
+import { isLoggedIn } from "../../utils/auth.service";
 import { useGetMyInfoQuery } from "../../redux/app/apis/authApi";
 import Loading from "../../app/(home)/(serviceType)/services/loading";
 import SubscriberMenu from "./menus/subscriberMenu";
 import VerifyUser from "../auth/VerifyUser";
 import GetLocalStore from "../../helpers/localStore/getLocalStore";
 import CONFIG from "../../config";
+import ModelCart from "../ui/cart/ModelCart";
+import { useGetServiceTypeQuery } from "../../redux/app/serviceTypeAndProvider/serviceTypeAndProvider";
 
 
 
@@ -19,23 +19,18 @@ const RenderedMenu = ({ data, IsLogin }: { data: any, IsLogin: Boolean }): React
   if (IsLogin && !data) {
     return <Loading />
   } else {
-    console.log(data)
   }
   if (data?.role === 'subscriber') return <SubscriberMenu data={data} />
 }
 
-
-
-
 export default function RootHeader() {
   const { data: myData } = useGetMyInfoQuery(null, { skip: !GetLocalStore(CONFIG.authKey) })
-  const [services, setServices] = useState<{ title: string }[]>([]);
+  const { data: serviceT } = useGetServiceTypeQuery({})
+
   const IsLogin = isLoggedIn()
-  const data = myData?.data 
-  
-  useEffect(() => {
-    setServices(serviceType());
-  }, []);
+  const services = serviceT?.data
+  const data = myData?.data
+ 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       {
@@ -55,9 +50,9 @@ export default function RootHeader() {
           <Dropdown
             dropdownRender={() => (
               <span className="flex flex-col space-y-1 p-4">
-                {services.map((service: { title: string }) => (
+                {services.map((service: { title: string }, i: number) => (
                   <Link
-                    key={service.title}
+                    key={i}
                     href={`/services/${service.title.split(" ").join("_")}`}
                   >
                     <p className="text-lg text-gray-900 hover:text-blue-800">
@@ -72,25 +67,24 @@ export default function RootHeader() {
               All Services <DownOutlined />
             </Link>
           </Dropdown>
-
-          <a href="#" className="text-lg text-gray-900">
-            Company
-          </a>
         </div>
-        <div className=" flex flex-1 justify-end">
+        <Space size={'large'} className=" flex flex-1 justify-end">
+
+          {(IsLogin &&  data?.role ==='subscriber') && <ModelCart><Avatar className="hover:cursor-pointer btn-primary" alt="asdfsadf" icon={<ShoppingCartOutlined />} size="large"></Avatar></ModelCart>}
+
           {IsLogin && data ? <Dropdown
             dropdownRender={() => (
-              <Row justify={"center"} className="p-4 rounded-md inline-block  bg-white shadow-lg min-w-[250px]">
+              <Row justify={"center"} className=" p-4 rounded-md inline-block  bg-white shadow-lg min-w-[250px]">
                 <SubscriberMenu data={data} />
-
               </Row>
             )}
           >
-            <Avatar size={"large"} src={data && data?.image?.url} icon={<UserOutlined />} />
-          </Dropdown> : <Link href="/auth/login" className="text-lg text-gray-900">
-            Log in <ArrowRightOutlined />
-          </Link>}
-        </div>
+            <Avatar size={"large"} className="cursor-pointer" src={data && data?.image?.url} icon={<UserOutlined />} />
+          </Dropdown>
+            : <Link href="/auth/login" className="text-lg text-gray-900">
+              Log in <ArrowRightOutlined />
+            </Link>}
+        </Space>
       </nav>
     </header>
   );

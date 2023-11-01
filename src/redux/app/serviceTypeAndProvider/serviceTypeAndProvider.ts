@@ -1,6 +1,6 @@
 import CONFIG from "../../../config";
 import GetLocalStore from "../../../helpers/localStore/getLocalStore";
-import { TServiceProvider } from "../../../types/serviceProvider/serviceProvider";
+import { TCreateServiceProvider } from "../../../types/serviceProvider/serviceProvider";
 import { TServiceType } from "../../../types/serviceType/serviceType";
 import { baseAPI } from "../baseApi";
 
@@ -47,9 +47,10 @@ const serviceType = baseAPI.injectEndpoints({
       providesTags:['serviceProvider']
     }),
     createServiceProvider: build.mutation({
-      query: (data: TServiceProvider) => {
+      
+      query: (data: TCreateServiceProvider) => { 
         return {
-          url: `/users/create-service-provider`,
+          url: `/auth/create-service-provider`,
           method: "POST",
           data,
           headers: {
@@ -76,4 +77,5 @@ export const {
   useGetServiceTypeQuery,
   useGetServiceProviderQuery,
   useCreateServiceTypeMutation,
+  useCreateServiceProviderMutation
 } = serviceType;

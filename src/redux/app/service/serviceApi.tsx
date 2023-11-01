@@ -19,6 +19,7 @@ const serviceApi = baseAPI.injectEndpoints({
         }),
         getAllService: build.query({
             query: (arg: Record<string, any>) => {
+
                 return {
                     url: `/service`,
                     method: "GET",
@@ -30,6 +31,19 @@ const serviceApi = baseAPI.injectEndpoints({
             },
         }),
 
+        getAService: build.query({
+            query: ({ serviceId }) => {
+
+                return {
+                    url: `/service/` + serviceId,
+                    method: "GET",
+                    headers: {
+                        Authorization: GetLocalStore(CONFIG.authKey),
+                    },
+                };
+            },
+        }),
+
     }),
 });
-export const { useCreateServiceMutation,useGetAllServiceQuery } = serviceApi;
+export const { useCreateServiceMutation, useGetAllServiceQuery, useGetAServiceQuery } = serviceApi;

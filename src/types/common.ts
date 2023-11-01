@@ -14,3 +14,10 @@ export enum EGender {
   male = "male",
   female = "female",
 }
+export enum TStatus {
+  active = "active",
+  deactive = "deactive",
+  pending = "pending",
+  booked = "booked",
+  finish = "finish",
+}

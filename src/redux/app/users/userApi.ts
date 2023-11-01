@@ -27,7 +27,7 @@ const userApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ["user"],
     }),
-    //  getServiceProvider: build.query({
+    //  geTCreateServiceProvider: build.query({
     //   query: (arg: Record<string, any>) => {
     //     return {
     //       url: `/users/get-service-provider`,

@@ -11,20 +11,20 @@ export default function LetUs() {
             <p className="font-semibold text-3xl">
               Can’t find your desired service? Let us know 24/7 in 16516.
             </p>
-            <div className="my-6">
-              <Button type="primary" size="large">
+
+            <div className="my-6 flex">
+              <button className="btn-primary rounded-md py-2 px-3">
                 Request a service
-              </Button>
-              <Button
-                className="mx-6 flex space-x-2 align-middle items-center"
-                type="default"
-                size="large"
+              </button>
+              <button
+                className="mx-6 hover:outline hover:outline-1 hover:outline-gray-900 px-3 py-2 rounded-md flex space-x-2 align-middle items-center"
               >
                 <span>
                   <PhoneOutlined />
                 </span>
                 <span> 14775</span>
-              </Button>
+              </button>
+
             </div>
           </div>
           <div className="w-4/12">

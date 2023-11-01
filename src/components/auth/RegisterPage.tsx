@@ -15,9 +15,9 @@ import { redirect, useRouter } from 'next/navigation'
 export default function RegisterPage() {
     const Router = useRouter() || undefined
     const [messageApi, contextHolder] = message.useMessage();
+    const key = 'Creatable';
     const [register] = useRegisterMutation()
     const [createUserByProvider] = useCreateUserByProviderMutation()
-    const key = 'Creatable';
     useEffect(() => {
         const isLogin = isLoggedIn()
         if (isLogin) {
