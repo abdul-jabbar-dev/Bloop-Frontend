@@ -1,23 +1,22 @@
-import React from 'react'
-import { TCart } from '../../../types/cart/cartItem'
+import React from 'react' 
 import Loading from '../../ui/loading'
 import Image from 'next/image'
 import { Collapse, CollapseProps, List } from 'antd'
 import Link from 'next/link'
+import { useGetACartQuery } from '../../../redux/app/cart/cartApi'
+import { useParams } from 'next/navigation'
 
-export default function CheckOutItem({ data }: { data: TCart }) { 
+export default function CheckOutItem() {
+
+    const  cartId = useParams().cartId as string
+    const { data: cartData } = useGetACartQuery({ cartId  })
+     
+    const data = cartData?.data
     const service = data?.service
     if (!service) {
         return <Loading />
     }
 
-
-    const text = (
-        <p style={{ paddingLeft: 24 }}>
-            A dog is a type of domesticated animal. Known for its loyalty and faithfulness, it can be found
-            as a welcome guest in many households across the world.
-        </p>
-    );
     const items: CollapseProps['items'] = [
         {
             key: '1',
@@ -28,7 +27,7 @@ export default function CheckOutItem({ data }: { data: TCart }) {
                     itemLayout="horizontal"
                     dataSource={service.serviceItem}
                     size='small'
-                    renderItem={(item, index) => (
+                    renderItem={(item:string, index) => (
                         <List.Item key={index}>
                             <List.Item.Meta
                                 title={<p className='m-0 p-0 text-gray-500'>{item}</p>}
@@ -47,7 +46,7 @@ export default function CheckOutItem({ data }: { data: TCart }) {
                     itemLayout="horizontal"
                     dataSource={service.serviceArea}
                     size='small'
-                    renderItem={(item, index) => (
+                    renderItem={(item:string, index) => (
                         <List.Item key={index}>
                             <List.Item.Meta
                                 title={<p className='m-0 p-0 text-gray-500'>{item}</p>}
@@ -78,7 +77,7 @@ export default function CheckOutItem({ data }: { data: TCart }) {
                         </div>
                     </div>
                 </div>
-                <Link href={'/cart'}><button className=' btn-primary w-full py-2 rounded-md'>Change</button></Link>
+                <Link href={'/cart'}><button className=' btn-primary w-full py-2  rounded-md'>Change</button></Link>
             </div>
 
 

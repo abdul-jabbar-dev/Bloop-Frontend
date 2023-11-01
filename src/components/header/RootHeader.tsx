@@ -19,7 +19,6 @@ const RenderedMenu = ({ data, IsLogin }: { data: any, IsLogin: Boolean }): React
   if (IsLogin && !data) {
     return <Loading />
   } else {
-    console.log(data)
   }
   if (data?.role === 'subscriber') return <SubscriberMenu data={data} />
 }
@@ -31,6 +30,7 @@ export default function RootHeader() {
   const IsLogin = isLoggedIn()
   const services = serviceT?.data
   const data = myData?.data
+ 
   return (
     <header className="absolute inset-x-0 top-0 z-50">
       {
@@ -69,7 +69,9 @@ export default function RootHeader() {
           </Dropdown>
         </div>
         <Space size={'large'} className=" flex flex-1 justify-end">
-          {(IsLogin && data) && <ModelCart><Avatar className="hover:cursor-pointer btn-primary" alt="asdfsadf" icon={<ShoppingCartOutlined />} size="large"></Avatar></ModelCart>}
+
+          {(IsLogin &&  data?.role ==='subscriber') && <ModelCart><Avatar className="hover:cursor-pointer btn-primary" alt="asdfsadf" icon={<ShoppingCartOutlined />} size="large"></Avatar></ModelCart>}
+
           {IsLogin && data ? <Dropdown
             dropdownRender={() => (
               <Row justify={"center"} className=" p-4 rounded-md inline-block  bg-white shadow-lg min-w-[250px]">
@@ -78,9 +80,10 @@ export default function RootHeader() {
             )}
           >
             <Avatar size={"large"} className="cursor-pointer" src={data && data?.image?.url} icon={<UserOutlined />} />
-          </Dropdown> : <Link href="/auth/login" className="text-lg text-gray-900">
-            Log in <ArrowRightOutlined />
-          </Link>}
+          </Dropdown>
+            : <Link href="/auth/login" className="text-lg text-gray-900">
+              Log in <ArrowRightOutlined />
+            </Link>}
         </Space>
       </nav>
     </header>

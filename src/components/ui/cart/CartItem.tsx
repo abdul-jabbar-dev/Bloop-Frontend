@@ -7,6 +7,7 @@ import { CloseCircleOutlined } from '@ant-design/icons'
 
 import { TCart } from '../../../types/cart/cartItem'
 import { useRemoveItemCartMutation } from '../../../redux/app/cart/cartApi'
+import Link from 'next/link'
  
 
 export default function CartItem({ item, setOnSelect, onSelect }: { onSelect: string, item: TCart, setOnSelect: React.Dispatch<React.SetStateAction<string>> }) {
@@ -24,8 +25,7 @@ export default function CartItem({ item, setOnSelect, onSelect }: { onSelect: st
 
     const removeFromItemCart = () => {
         removeItem(item.id).then((res: any) => {
-            if (res?.data?.data) {
-                console.log()
+            if (res?.data?.data) { 
                 setOnRemove(res?.data?.data.id)
             }
         })
@@ -54,11 +54,13 @@ export default function CartItem({ item, setOnSelect, onSelect }: { onSelect: st
                             {service.price}<p className="ml-1 text-xs font-thin">BDT</p>
                         </div>
                         <div className='flex justify-end'>
+                            <Link className='w-full mt-2' href={'/cart/checkout/'+item.id}>
                             <button className=" border border-transparent outline bg-gray-900 hover:bg-transparent hover:outline-1 hover:outline-gray-900   text-white hover:text-gray-900 flex justify-center items-center py-2 rounded w-full">
                                 <div>
                                     <p className="text-base leading-4">Proceed </p>
                                 </div>
                             </button>
+                           </Link>
                         </div>
 
                     </div>

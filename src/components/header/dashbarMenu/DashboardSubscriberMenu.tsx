@@ -1,6 +1,7 @@
 import {
   ControlOutlined,
   HistoryOutlined,
+  HomeFilled,
   SettingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
@@ -11,6 +12,12 @@ export default function DashboardSubscriberMenu({ data, collapsed }: any) {
 
   type MenuItem = Required<MenuProps>["items"][number];
   const authItem: MenuItem[] = [
+    {
+      key: "0",
+      label: <Link href={'/'}>Home</Link>,
+      icon: <HomeFilled />,
+
+    }, { type: "divider" },
     {
       key: "profile",
       disabled: true,
@@ -26,7 +33,8 @@ export default function DashboardSubscriberMenu({ data, collapsed }: any) {
         <Row className="w-full h-max text-gray-300" justify={"center"}>
           <Col>
             <Avatar
-              className="mx-auto"
+              className="mx-auto my-auto"
+              style={{ margin: "auto", justifyContent: "center", display: "flex", alignItems: "center" }}
               src={data && data?.image?.url}
               size={!collapsed ? 80 : 32}
               icon={<UserOutlined />}

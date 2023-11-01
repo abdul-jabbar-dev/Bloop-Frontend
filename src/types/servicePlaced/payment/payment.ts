@@ -29,14 +29,14 @@ type TPayment = {
   price: string;
   paymentVarificationCode: string | null;
   status: EPaymentStatus;
-  PaymentMethod: EPaymentMethods;
+  paymentMethod: EPaymentMethods;
   servicePlaced?: TServicePlaced;
   createdAt?: Date;
   updatedAt?: Date;
 };
 export type TCreatePayment = {
   paymentVarificationCode?: string;
-  PaymentMethod: EPaymentMethods;
+  paymentMethod: EPaymentMethods;
   orderId: string;
 };
 export default TPayment;

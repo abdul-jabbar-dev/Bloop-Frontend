@@ -13,16 +13,14 @@ export default function HeroSection() {
         }}
       >
         <div className="relative isolate px-6 pt-10 lg:px-8 containers mx-auto ">
-  
+
           <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
             <div className="text-center">
               <h1 className="text-4xl text-black font-bold tracking-tight lg:text-gray-900 sm:text-6xl">
                 We Provide world-class daily life Services
               </h1>
               <p className="mt-6 text-black    text-lg leading-8 md:text-gray-600">
-                Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
-                lorem cupidatat commodo. Elit sunt amet fugiat veniam occaecat
-                fugiat aliqua.
+                Welcome to Bloop Home Services, where your home's well-being is our top priority. From electrical repairs to painting, cleaning, and more, Bloop is your trusted partner for all your home improvement needs. Explore our services today and let us turn your house into the dream home you've always envisioned.
               </p>
               <div className="mt-10 flex items-center justify-center gap-x-6">
                 <Link href={'/services'}><button

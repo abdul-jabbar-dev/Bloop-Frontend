@@ -15,8 +15,7 @@ export default function Form({ children,
 
     const methods = useForm<Record<string, any>>(formConfig);
     const onSubmit = (data: any, event?: React.BaseSyntheticEvent<object, any, any> | undefined) => {
-
-        console.log(methods.formState.errors)
+ 
         submitHandler(data, event, methods);
 
 

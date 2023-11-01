@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 import Form from '../../../ui/form/Form'
 import FormInput from '../../../ui/form/FormInput'
@@ -9,9 +10,11 @@ import dayjs from 'dayjs'
 import { useCreateOrderMutation } from '../../../../redux/app/order/orderApi'
 import { message } from 'antd'
 import { TCart } from '../../../../types/cart/cartItem'
+import { useRouter } from 'next/navigation'
 
 export default function CheckOutIssueForm({ cart, next }: { cart: TCart, next: any }) {
- 
+    const router = useRouter()
+
     const [createOrder] = useCreateOrderMutation({})
     const [date, setDate] = useState<string>('')
     const [messageApi, contextHolder] = message.useMessage();
@@ -21,10 +24,13 @@ export default function CheckOutIssueForm({ cart, next }: { cart: TCart, next: a
         data['serviceId'] = cart.serviceId
         data['cartId'] = cart.id
         data['bookingDate'] = date
-        createOrder({ servicePlacedInfo: data }).then((rre: any) => {
 
+
+        createOrder({ servicePlacedInfo: data }).then((rre: any) => {
+            
             if (rre?.data?.data) {
                 next()
+       router.refresh()
             } else {
                 messageApi.open({
                     key,

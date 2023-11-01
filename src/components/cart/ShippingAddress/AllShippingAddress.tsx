@@ -16,7 +16,7 @@ export default function AllShippingAddress() {
 
             {!(shippingAddress?.data && (shippingAddress?.data?.length === 0)) ?
                 (shippingAddress?.data.map((address: TShippingAddress, i: number) => <ShippingAddressItem addressInfo={address} key={i} />))
-                : <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+                : <Empty description={"No Shipping Address"} image={Empty.PRESENTED_IMAGE_SIMPLE} />}
 
             <p className='text-right text-gray-500'>{shippingAddress?.data?.length || 0}/3</p>
 

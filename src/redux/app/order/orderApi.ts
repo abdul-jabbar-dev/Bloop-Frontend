@@ -21,7 +21,7 @@ const orderApi = baseAPI.injectEndpoints({
           },
         };
       },
-      invalidatesTags: ["order"],
+      invalidatesTags: ["order", "createOrder"],
     }),
 
     getServicePlacedByCartId: build.query({
@@ -34,7 +34,7 @@ const orderApi = baseAPI.injectEndpoints({
           },
         };
       },
-      providesTags: ["cart"],
+      providesTags: ["cart", "createOrder"],
     }),
     getMyOrders: build.query({
       query: () => {
@@ -48,7 +48,31 @@ const orderApi = baseAPI.injectEndpoints({
       },
       providesTags: ["cart"],
     }),
+    getServiceProvidersActiveOrders: build.query({
+      query: () => {
+        return {
+          url: "/order/find-providers-active-orders",
+          method: "GET",
+          headers: {
+            Authorization: GetLocalStore(CONFIG.authKey),
+          },
+        };
+      },
+      providesTags: ["order", "completeOrder"],
+    }),
 
+    getServiceProvidersAllOrders: build.query({
+      query: () => {
+        return {
+          url: "/order/find-providers-all-orders",
+          method: "GET",
+          headers: {
+            Authorization: GetLocalStore(CONFIG.authKey),
+          },
+        };
+      },
+      providesTags: ["order", "completeOrder"],
+    }),
     makePaymentAndConfirm: build.mutation({
       query: ({
         servicePlacedInfo: createPaymentInfo,
@@ -66,6 +90,18 @@ const orderApi = baseAPI.injectEndpoints({
       },
       invalidatesTags: ["order"],
     }),
+    completeOrder: build.mutation({
+      query: ({ orderId }: { orderId: string }) => {
+        return {
+          url: `/order/complete-order/` + orderId,
+          method: "POST",
+          headers: {
+            Authorization: GetLocalStore(CONFIG.authKey),
+          },
+        };
+      },
+      invalidatesTags: ["completeOrder"],
+    }),
   }),
 });
 export const {
@@ -73,4 +109,7 @@ export const {
   useGetServicePlacedByCartIdQuery,
   useMakePaymentAndConfirmMutation,
   useGetMyOrdersQuery,
+  useGetServiceProvidersActiveOrdersQuery,
+  useGetServiceProvidersAllOrdersQuery,
+  useCompleteOrderMutation,
 } = orderApi;

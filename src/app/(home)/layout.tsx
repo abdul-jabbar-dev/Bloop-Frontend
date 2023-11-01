@@ -1,7 +1,6 @@
-'use client'  
-import RootFooter from "../../components/footer/RootFooter"; 
-import dynamic from "next/dynamic";
-const RootHeader = dynamic(() => import('../../components/header/RootHeader'), { ssr: false })
+  
+import RootFooter from "../../components/footer/RootFooter";  
+import RootHeader from "../../components/header/RootHeader";
  
 interface RootLayoutProps {
   children: React.ReactNode;

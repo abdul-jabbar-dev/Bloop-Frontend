@@ -32,7 +32,7 @@ const cartApi = baseAPI.injectEndpoints({
     }),
 
     getACart: build.query({
-      query: ({ cartId }: { cartId: string }) => {
+      query: ({ cartId }: { cartId: string }) => { 
         return {
           url: `/cart/get-from-cart/` + cartId,
           method: "GET",

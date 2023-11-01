@@ -10,6 +10,7 @@ import GetLocalStore from '../../helpers/localStore/getLocalStore';
 import CONFIG from '../../config';
 import { isLoggedIn } from '../../utils/auth.service';
 import { redirect } from 'next/navigation';
+import DashboardServiceProviderMenu from './dashbarMenu/DashboardServiceProviderMenu';
 const IsLogin = isLoggedIn()
 
 
@@ -28,13 +29,15 @@ export default function DashboardSidebar() {
       return DashboardSubscriberMenu({ data, collapsed })
     } else if (data?.role === 'admin') {
       return DashboardAdminMenu({ data, collapsed })
+    } else if (data?.role === 'serviceProvider') {
+      return DashboardServiceProviderMenu({ data, collapsed })
     }
   }
 
   return (
     <div>
       <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
-        <div className="demo-logo-vertical" ></div>
+        <div className="demo-logo-vertical" > </div>
         <Menu theme="dark" mode="inline" items={rendedMenu()} />
       </Sider>
     </div>

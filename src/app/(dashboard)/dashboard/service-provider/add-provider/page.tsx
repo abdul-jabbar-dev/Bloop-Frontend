@@ -47,11 +47,9 @@ export default function Page() {
             type: 'loading',
             content: 'Service provider Creating',
             duration: 2
-        })
-        console.log(providerInfo)
+        }) 
         createProvider(providerInfo)
-            .then((rre: any) => {
-                console.log(rre)
+            .then((rre: any) => {  
                 if ((rre as any)?.data?.data) {
                     messageApi.open({
                         key,

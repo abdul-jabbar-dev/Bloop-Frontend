@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import { TCart } from '../../../types/cart/cartItem'
+import React, {  useState } from 'react'
 import Form from '../form/Form'
 import FormInput from '../form/FormInput'
 import FormSelect from '../form/FormSelect'
@@ -7,22 +6,16 @@ import { CPaymentMethods, EPaymentMethods, TCreatePayment } from '../../../types
 import TOrder from '../../../types/order/order'
 import Loading from '../loading'
 import { useMakePaymentAndConfirmMutation } from '../../../redux/app/order/orderApi'
-import { message } from 'antd'
-import { TStatus } from '../../../types/common'
+import { message } from 'antd' 
 
-export default function CheckOutPaymentForm({ cart, next, ordered }: { cart: TCart, next: any, ordered: { data: TOrder } }) {
-
+export default function CheckOutPaymentForm({ next, ordered }: { next: any, ordered: { data: TOrder } }) {
+ 
     const [messageApi, contextHolder] = message.useMessage();
     const key = 'confirmPayment'
     if (!ordered) {
         return <Loading />
     }
-    useEffect(() => {
 
-        if ((ordered.data.status !== TStatus.pending) && ordered.data.servicePlaced.payment.id) {
-            // next()
-        }
-    }, [])
     const [makePayment] = useMakePaymentAndConfirmMutation()
     const [paymentType, setPaymentType] = useState("")
 
@@ -33,10 +26,9 @@ export default function CheckOutPaymentForm({ cart, next, ordered }: { cart: TCa
             data['paymentVarificationCode'] = undefined
         }
         data['orderId'] = ordered.data.id
-        makePayment({ servicePlacedInfo: data }).then((rre: any) => {
-            console.log(rre)
+        makePayment({ servicePlacedInfo: data }).then((rre: any) => { 
             if (rre?.data?.data) {
-                // next()
+                next()
             } else {
                 messageApi.open({
                     key,
@@ -62,7 +54,7 @@ export default function CheckOutPaymentForm({ cart, next, ordered }: { cart: TCa
                 </div>
 
                 {paymentType !== EPaymentMethods.CashOnDelivery && <div className="mt-8">
-                    <label htmlFor='paymentVarificationCode' className="mt-8 text-base leading-4  text-gray-800">Issue details</label>
+                    <label htmlFor='paymentVarificationCode' className="mt-8 text-base leading-4  text-gray-800">Transaction ID</label>
                     <FormInput size='large' placeholder='    *********' name='paymentVarificationCode' style={{ padding: ".8rem", borderRadius: "4px" }} inputClassName="py-6 h-full border border-gray-300 w-full text-base leading-4 placeholder-gray-600 text-gray-600 " type="text" />
                 </div>}
                 <button className="mt-8 border border-transparent hover:border-gray-300  bg-gray-900 hover:bg-white text-white hover:text-gray-900 flex justify-center items-center py-4 rounded w-full">
