@@ -1,18 +1,25 @@
-'use client'
-import { useEffect, useState } from 'react'
-
-import img from '../../../../../assets/service/car rent.jpg'
+'use client' 
 import Image from 'next/image'
 import Link from 'next/link'
 import TService from '../../../../../types/Service/Service'
-import service from '../../../../../data/service'
 import { useGetAllServiceQuery } from '../../../../../redux/app/service/serviceApi'
+import { Empty, Skeleton, Space } from 'antd'
 type Props = { params: { serviceType: string }, searchParams: {} }
 
-export default function page(pages: Props) { 
+export default function page(pages: Props) {
     const serviceType = ((pages.params.serviceType)?.replaceAll("_", ' ')) || ""
-    const { data: services } = useGetAllServiceQuery({ "service.title": serviceType }, { skip: serviceType.length < 1 })
+    const { data: services, isSuccess } = useGetAllServiceQuery({ "service.title": serviceType }, { skip: serviceType.length < 1 })
 
+    if (!services) {
+        return <Space className="mt-8 xl:-mx-6 xl:flex xl:items-center">
+            <Skeleton.Button style={{ width: "300px", height: "200px", borderRadius: "6px" }} />
+            <Skeleton />
+        </Space>
+    }
+
+    if ((services.data).length < 1 && isSuccess) {
+        return <Empty description="No item Found" />
+    }
     return (
         <>
             {
@@ -33,7 +40,8 @@ export default function page(pages: Props) {
 
 
                     </div>
-                </div>)
+                </div>
+                )
             }
         </>
     )

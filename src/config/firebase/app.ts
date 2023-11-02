@@ -1,12 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 const firebaseConfig = {
-  apiKey: "AIzaSyCY5mvgYI0U5pHJOFB1Svp_21sf3FbfZUU",
-  authDomain: "bloop-7626e.firebaseapp.com",
-  projectId: "bloop-7626e",
-  storageBucket: "bloop-7626e.appspot.com",
-  messagingSenderId: "714374592588",
-  appId: "1:714374592588:web:735783e1d0938a20dbdce9",
+  apiKey: "AIzaSyCpQKMtChxFIcJP40lYZ7RizkRjUHB0pYY",
+  authDomain: "bloop-975c2.firebaseapp.com",
+  projectId: "bloop-975c2",
+  storageBucket: "bloop-975c2.appspot.com",
+  messagingSenderId: "726773761160",
+  appId: "1:726773761160:web:54d19ff50d6d077a730b3d",
 };
 
 const app = initializeApp(firebaseConfig);
