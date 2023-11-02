@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 
-import { Button, Space, Tag, message } from 'antd'
+import { Button, Empty, Space, Tag, message } from 'antd'
 import TService from '../../../../../../types/Service/Service'
 import { useGetAllServiceQuery } from '../../../../../../redux/app/service/serviceApi'
 import Loading from './loading'
@@ -12,7 +12,7 @@ import Image from 'next/image'
 export default function page(props: any) {
     const [messageApi, contextHolder] = message.useMessage();
     const key = 'addToCart';
- 
+
     const serviceN = (props.params.service as string)?.replaceAll('_', " ")
     const [addToCart] = useAddToCartMutation()
     const { data } = useGetAllServiceQuery({ title: serviceN }, { skip: serviceN.length < 1 })
@@ -21,6 +21,7 @@ export default function page(props: any) {
     }
 
     const service: TService = data?.data[0];
+
     const actionToCart = () => {
         addToCart({ serviceId: service.id }).then((rre: any) => {
             if (rre?.data?.data) {
@@ -49,7 +50,7 @@ export default function page(props: any) {
             <section className="text-gray-700 body-font overflow-hidden bg-white">
                 <div className="container px-5 py-24 mx-auto">
                     <div className="lg:w-4/5 mx-auto flex flex-wrap">{contextHolder}
-                        <Image alt="ecommerce" width={800} height={800} className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={service?.image?.url}/>
+                        <Image alt="ecommerce" width={800} height={800} className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200" src={service?.image?.url} />
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 className="text-sm title-font text-gray-500 tracking-widest">{service.service?.title}</h2>
                             <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{service.title}</h1>

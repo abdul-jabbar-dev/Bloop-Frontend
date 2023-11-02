@@ -42,18 +42,10 @@ const items = [
 export default function Store() {
   return (
     <div className="py-16  containers mx-auto">
-      <Col>
-        <Search
-          placeholder="Find your items"
-          allowClear
-          
-          enterButton="Search"
-          size="large"
-        />
-      </Col>
+ 
       <div className="my-8">
         <p className="text-lg font-medium text-slate-600">
-          Browse items by category
+          Upcoming catagories
         </p>
         <div className="p-12">
           <Row justify={"space-between"} className="gap-10">
