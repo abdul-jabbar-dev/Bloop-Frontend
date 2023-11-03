@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { Badge, Drawer } from 'antd';
+import { Badge, Drawer, Empty } from 'antd';
 import { useGetFromCartQuery } from '../../../redux/app/cart/cartApi';
 import GetLocalStore from '../../../helpers/localStore/getLocalStore';
 import CONFIG from '../../../config';
@@ -15,7 +15,7 @@ import Link from 'next/link';
 const ModelCart = ({ children }: {
     children: React.ReactElement
 }) => {
-    const { data } = useGetFromCartQuery(null, { skip: !GetLocalStore(CONFIG.authKey) })
+    const { data, isLoading } = useGetFromCartQuery(null, { skip: !GetLocalStore(CONFIG.authKey) })
 
     const [onSelect, setOnSelect] = useState<string>("")
     const [open, setOpen] = useState<boolean>(false);
@@ -27,8 +27,8 @@ const ModelCart = ({ children }: {
         setOpen(false);
     };
 
-    if (!data) {
-       return <Loading/> 
+    if (!data && isLoading) {
+        return <Loading />
     }
     type TCartWithOrder = {
         order: TOrder
@@ -40,9 +40,10 @@ const ModelCart = ({ children }: {
             return item
         }
     })
+
     return (
         <>
-            <Badge size="small" count={filterCart.length || '-'}>  <div onClick={showDrawer}>{children}</div></Badge>
+            <Badge size="small" count={(filterCart?.length)}>  <div onClick={showDrawer}>{children}</div></Badge>
             <Drawer size='default' rootStyle={{ width: "100%" }} placement="right" onClose={onClose} open={open}>
                 <div className="relative overflow-x-hidden flex flex-col items-center rounded-[10px] border-[1px] border-gray-200 w-full mx-auto p-4 bg-white bg-clip-border shadow-md shadow-[#F3F3F3]">
                     <div className="flex items-center justify-between rounded-t-3xl px-3 w-full">
@@ -56,12 +57,8 @@ const ModelCart = ({ children }: {
                         </Link>
                     </div>
                     {
-                        filterCart?.filter(item => {
-                            if (!(item?.order)) return item
-                            else if (item?.order?.status !== TStatus.booked) {
-                                return item
-                            }
-                        }).map((item: TCart, i: number) => <CartItem key={i} onSelect={onSelect} setOnSelect={setOnSelect} item={item} />)
+                        !filterCart||filterCart?.length < 1 ? <Empty description="Empty Cart" /> :  // "sjgkergjej"
+                            filterCart?.map((item: TCart, i: number) => <CartItem key={i} onSelect={onSelect} setOnSelect={setOnSelect} item={item} />)
                     }
 
                 </div>

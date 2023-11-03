@@ -50,7 +50,7 @@ export default function RootHeader() {
           <Dropdown
             dropdownRender={() => (
               <span className="flex flex-col space-y-1 p-4">
-                {services.map((service: { title: string }, i: number) => (
+                {services?.map((service: { title: string }, i: number) => (
                   <Link
                     key={i}
                     href={`/services/${service.title.split(" ").join("_")}`}
