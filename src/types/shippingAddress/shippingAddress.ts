@@ -1,4 +1,5 @@
 import TSubscriber from "../Subscriber/Subscriber";
+import TOrder from "../order/order";
 
 export type TShippingAddress = {
   id?: string;
@@ -9,7 +10,8 @@ export type TShippingAddress = {
   isDefault: boolean;
   subscriberId?: string;
   label: string;
-  subscriber?:TSubscriber
+  Order?:TOrder[]
+  subscriber?: TSubscriber;
   contactNo: string;
   createdAt?: Date;
   updatedAt?: Date;

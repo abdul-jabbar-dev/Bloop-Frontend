@@ -103,11 +103,19 @@ export default function ActiveOrder({ cart }: { cart: TOrder }) {
                             (new Date(dayjs(cart.servicePlaced.bookingDate, dateFormat).format()).toDateString()) : cart.servicePlaced.bookingDate
                     },
                     key: 'deliveryDate',
-                    width: "20%"
+                    width: "15%"
                 }, {
                     title: 'Issue Item',
                     dataIndex: 'issueItemName',
                     key: 'issueItemName',
+                    width: "15%"
+                }, {
+                    title: 'Shipping Address', 
+                    key: 'issueItemName',
+                    render:(value, record, index)=> {
+                        const {address,area,city,street} = cart.shippingAddress
+                        return address + " " + street + " " + area + " " + city
+                    },
                     width: "20%"
                 }, {
                     title: 'Issue Details',

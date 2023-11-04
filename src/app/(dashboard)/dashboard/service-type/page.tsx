@@ -78,16 +78,7 @@ export default function ServiceType() {
                 return data && dayjs(data).format("MMM D, YYYY hh:mm A");
             },
             sorter: true,
-        }, {
-            title: 'Action',
-            key: 'action',
-            render: () => (
-                <Space size="middle">
-                    <a>Delete</a>
-                    <a>Edit</a>
-                </Space>
-            ),
-        },
+        },  
     ];
     const onPaginationChange = (page: number, pageSize: number) => {
         setPage(page);

@@ -147,7 +147,7 @@ export default function ShippingAddressForm() {
                             </label>
 
                         </fieldset>
-                        <fieldset className="mb-3 rounded text-gray-600">
+                        <fieldset className="mb-3 rounded-md text-gray-600">
 
                             <label className="flex h-12 py-3 items-center">
                                 <FormCheckBox name='isDefault' text='Set default Address?' />
@@ -157,7 +157,7 @@ export default function ShippingAddressForm() {
                         <div id={'errContainer'}></div>
                     </fieldset>
                 </section>
-                <button className="submit-button px-4 py-3 rounded-full outline bg-gray-900 hover:bg-transparent hover:outline-1 hover:outline-gray-900   text-white hover:text-gray-900 w-full text-xl font-semibold transition-colors">
+                <button className="submit-button px-4 py-3 rounded-md outline bg-gray-900 hover:bg-transparent hover:outline-1 hover:outline-gray-900   text-white hover:text-gray-900 w-full text-xl font-semibold transition-colors">
                     Add Shipping
                 </button>
             </Form>
