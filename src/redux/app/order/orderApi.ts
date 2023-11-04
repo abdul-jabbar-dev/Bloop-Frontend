@@ -48,6 +48,18 @@ const orderApi = baseAPI.injectEndpoints({
       },
       providesTags: ["cart"],
     }),
+    getAllOrders: build.query({
+      query: () => {
+        return {
+          url: "/order/all-orders",
+          method: "GET",
+          headers: {
+            Authorization: GetLocalStore(CONFIG.authKey),
+          },
+        };
+      },
+      providesTags: ["order"],
+    }),
     getServiceProvidersActiveOrders: build.query({
       query: () => {
         return {
@@ -112,4 +124,5 @@ export const {
   useGetServiceProvidersActiveOrdersQuery,
   useGetServiceProvidersAllOrdersQuery,
   useCompleteOrderMutation,
+  useGetAllOrdersQuery
 } = orderApi;

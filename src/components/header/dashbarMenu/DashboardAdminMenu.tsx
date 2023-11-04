@@ -61,7 +61,7 @@ export default function DashboardAdminMenu({ data, collapsed }: any) {
     },
     {
       key: "2",
-      label: <Link href={'/dashboard/all-history'}>All Order</Link>,
+      label: <Link href={'/dashboard/all-orders'}>All Order</Link>,
       icon: <HistoryOutlined />,
     },
     {

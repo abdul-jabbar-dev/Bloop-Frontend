@@ -11,6 +11,8 @@ import { useCreateOrderMutation } from '../../../../redux/app/order/orderApi'
 import { message } from 'antd'
 import { TCart } from '../../../../types/cart/cartItem'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+import { EditOutlined } from '@ant-design/icons'
 
 export default function CheckOutIssueForm({ cart, next }: { cart: TCart, next: any }) {
     const router = useRouter()
@@ -27,10 +29,10 @@ export default function CheckOutIssueForm({ cart, next }: { cart: TCart, next: a
 
 
         createOrder({ servicePlacedInfo: data }).then((rre: any) => {
-            
+
             if (rre?.data?.data) {
                 next()
-       router.refresh()
+                router.refresh()
             } else {
                 messageApi.open({
                     key,
@@ -66,6 +68,8 @@ export default function CheckOutIssueForm({ cart, next }: { cart: TCart, next: a
                         style={{ padding: ".8rem", borderRadius: "3px" }}
                         inputClassName="border border-gray-300 w-full text-base leading-4 placeholder-gray-600 text-gray-600"
                         type="text" placeholder="Select a comfortable Date" />
+                </div>  <div className="mt-2">
+                    <Link href={'/dashboard/shipping-address'}><span className='text-md text-gray-700 hover:text-gray-900 cursor-pointer'>Edit Shipping Address <EditOutlined /></span></Link>
                 </div>
 
                 <button className="mt-8 border border-transparent hover:border-gray-300  bg-gray-900 hover:bg-white text-white hover:text-gray-900 flex justify-center items-center py-4 rounded w-full">

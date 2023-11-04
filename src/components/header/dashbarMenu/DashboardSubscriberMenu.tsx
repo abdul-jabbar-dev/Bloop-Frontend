@@ -1,4 +1,5 @@
 import {
+  AimOutlined,
   ControlOutlined,
   HistoryOutlined,
   HomeFilled,
@@ -63,6 +64,10 @@ export default function DashboardSubscriberMenu({ data, collapsed }: any) {
     },
     {
       key: "3",
+      label: <Link href={'/dashboard/shipping-address'}>Shipping Address</Link>,
+      icon: <AimOutlined />,
+    },    {
+      key: "4",
       label: <Link href={'/dashboard/settings'}>Settings</Link>,
       icon: <SettingOutlined />,
     },

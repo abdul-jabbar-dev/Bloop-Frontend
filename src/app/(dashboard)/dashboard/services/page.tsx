@@ -33,7 +33,7 @@ export default function Services() {
     const debouncedTerm = useDebounced({
         searchQuery: searchTerm,
         delay: 600,
-    }); 
+    });
     if (!!debouncedTerm) {
         query["searchTerm"] = debouncedTerm;
     }
@@ -94,14 +94,6 @@ export default function Services() {
                 return data && dayjs(data).format("MMM D, YYYY hh:mm A");
             },
             sorter: true,
-        }, {
-            title: 'Action',
-            key: 'action',
-            render: (row) => (
-                <Space size="middle">
-                    <a onClick={() => console.log(row)}>Delete</a>
-                </Space>
-            ),
         },
     ];
     const onPaginationChange = (page: number, pageSize: number) => {

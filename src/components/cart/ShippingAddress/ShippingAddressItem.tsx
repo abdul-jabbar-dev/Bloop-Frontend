@@ -20,7 +20,7 @@ export default function ShippingAddressItem({ addressInfo }: { addressInfo: TShi
 
                     <Row justify={'space-between'} className="my-1 text-base" >
                         <Col xl={3} sm={5}>
-                            <span className="text-right whitespace-nowrap w-max">Contact Number: </span>
+                            <span className="text-right  whitespace-nowrap w-max">Number: </span>
                         </Col>
                         <Col xl={19} sm={18} className="w-full">
                             <div className="">{addressInfo.contactNo}</div>
